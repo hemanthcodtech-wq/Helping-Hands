@@ -41,7 +41,7 @@ export default function Gallery() {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/resources")
+        const res = await fetch("https://helpinghandsbe.vercel.app/api/resources")
         const data = await res.json()
         if (data.success) {
           // Filter for photo resources

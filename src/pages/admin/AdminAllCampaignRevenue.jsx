@@ -17,8 +17,8 @@ export default function AdminAllCampaignRevenue() {
     const fetchData = async () => {
       try {
         const [donRes, campRes] = await Promise.all([
-          fetch("http://localhost:5000/api/donations/all"),
-          fetch("http://localhost:5000/api/campaigns")
+          fetch("https://helpinghandsbe.vercel.app/api/donations/all"),
+          fetch("https://helpinghandsbe.vercel.app/api/campaigns")
         ])
         const donData = await donRes.json()
         const campData = await campRes.json()

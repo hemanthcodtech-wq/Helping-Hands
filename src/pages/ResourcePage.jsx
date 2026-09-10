@@ -41,7 +41,7 @@ export default function ResourcePage() {
     const fetchItems = async () => {
       setLoading(true)
       try {
-        const res = await fetch(`http://localhost:5000/api/resources?category=${dbCategory}`)
+        const res = await fetch(`https://helpinghandsbe.vercel.app/api/resources?category=${dbCategory}`)
         const json = await res.json()
         if (json.success) {
           setItems(json.resources)

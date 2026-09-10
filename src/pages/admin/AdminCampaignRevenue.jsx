@@ -15,11 +15,11 @@ export default function AdminCampaignRevenue() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const campRes = await fetch(`http://localhost:5000/api/campaigns/${id}`)
+        const campRes = await fetch(`https://helpinghandsbe.vercel.app/api/campaigns/${id}`)
         const campData = await campRes.json()
         if (campData.success) setCampaign(campData.campaign)
 
-        const donRes = await fetch(`http://localhost:5000/api/campaigns/${id}/donors`)
+        const donRes = await fetch(`https://helpinghandsbe.vercel.app/api/campaigns/${id}/donors`)
         const donData = await donRes.json()
         if (donData.success) setDonors(donData.donors)
       } catch (err) {

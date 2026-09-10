@@ -20,7 +20,7 @@ export default function Testimonials() {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/testimonials")
+        const res = await fetch("https://helpinghandsbe.vercel.app/api/testimonials")
         const data = await res.json()
         if (data.success && data.testimonials.length > 0) {
           setTestimonials(data.testimonials)

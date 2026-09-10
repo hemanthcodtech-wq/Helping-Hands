@@ -22,7 +22,7 @@ export default function AdminBankAccounts() {
 
   const fetchAccounts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/bank-accounts")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/bank-accounts")
       const data = await res.json()
       if (data.success) {
         setAccounts(data.bankAccounts)
@@ -51,7 +51,7 @@ export default function AdminBankAccounts() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this bank account?")) return
     try {
-      await fetch(`http://localhost:5000/api/bank-accounts/${id}`, { method: "DELETE" })
+      await fetch(`https://helpinghandsbe.vercel.app/api/bank-accounts/${id}`, { method: "DELETE" })
       fetchAccounts()
     } catch (err) {
       console.error(err)
@@ -77,8 +77,8 @@ export default function AdminBankAccounts() {
     try {
       const method = form.id ? "PUT" : "POST"
       const url = form.id 
-        ? `http://localhost:5000/api/bank-accounts/${form.id}`
-        : "http://localhost:5000/api/bank-accounts"
+        ? `https://helpinghandsbe.vercel.app/api/bank-accounts/${form.id}`
+        : "https://helpinghandsbe.vercel.app/api/bank-accounts"
 
       await fetch(url, {
         method,

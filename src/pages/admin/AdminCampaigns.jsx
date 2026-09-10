@@ -16,7 +16,7 @@ export default function AdminCampaigns() {
 
   const fetchCampaigns = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/campaigns")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/campaigns")
       const data = await res.json()
       if (data.success) {
         setCampaigns(data.campaigns)
@@ -49,7 +49,7 @@ export default function AdminCampaigns() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this campaign?")) return
     try {
-      const res = await fetch(`http://localhost:5000/api/campaigns/${id}`, { method: "DELETE" })
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/campaigns/${id}`, { method: "DELETE" })
       const data = await res.json()
       if (data.success) fetchCampaigns()
     } catch (err) {
@@ -71,7 +71,7 @@ export default function AdminCampaigns() {
       if (form.image) formData.append("image", form.image)
       if (imageFile) formData.append("image", imageFile) // file overrides url
 
-      const url = editingId ? `http://localhost:5000/api/campaigns/${editingId}` : `http://localhost:5000/api/campaigns`
+      const url = editingId ? `https://helpinghandsbe.vercel.app/api/campaigns/${editingId}` : `https://helpinghandsbe.vercel.app/api/campaigns`
       const method = editingId ? "PUT" : "POST"
 
       const res = await fetch(url, {

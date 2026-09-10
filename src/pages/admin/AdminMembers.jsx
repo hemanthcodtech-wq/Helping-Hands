@@ -19,7 +19,7 @@ export default function AdminMembers() {
 
   const fetchMembers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/members")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/members")
       const data = await res.json()
       if (data.success) {
         setMembers(data.members)
@@ -33,7 +33,7 @@ export default function AdminMembers() {
 
   const handleStatusToggle = async (id, currentStatus) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/members/${id}/status`, {
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/members/${id}/status`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ is_active: !currentStatus }),
@@ -47,7 +47,7 @@ export default function AdminMembers() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this member?")) return
     try {
-      const res = await fetch(`http://localhost:5000/api/members/${id}`, { method: "DELETE" })
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/members/${id}`, { method: "DELETE" })
       if (res.ok) fetchMembers()
     } catch (error) {
       console.error("Error deleting member:", error)
@@ -57,7 +57,7 @@ export default function AdminMembers() {
   const handleSave = async (e) => {
     e.preventDefault()
     try {
-      const res = await fetch("http://localhost:5000/api/members/register", {
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/members/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

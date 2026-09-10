@@ -33,7 +33,7 @@ export default function AdminResources() {
 
   const fetchResources = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/resources?category=${activeCategory}`)
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/resources?category=${activeCategory}`)
       const data = await res.json()
       if (data.success) {
         setResources(data.resources)
@@ -52,7 +52,7 @@ export default function AdminResources() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this resource?")) return
     try {
-      const res = await fetch(`http://localhost:5000/api/resources/${id}`, { method: 'DELETE' })
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/resources/${id}`, { method: 'DELETE' })
       const data = await res.json()
       if (data.success) {
         fetchResources()
@@ -79,7 +79,7 @@ export default function AdminResources() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/resources", {
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/resources", {
         method: "POST",
         body: formData
       })

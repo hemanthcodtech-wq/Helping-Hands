@@ -12,7 +12,7 @@ export default function Programs() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/programs")
+    fetch("https://helpinghandsbe.vercel.app/api/programs")
       .then(res => res.json())
       .then(data => {
         if (data.success) setPrograms(data.programs)

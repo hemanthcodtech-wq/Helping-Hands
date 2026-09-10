@@ -22,7 +22,7 @@ export default function MemberLogin() {
     setIsLoading(true)
 
     try {
-      const res = await fetch("http://localhost:5000/api/members/login", {
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/members/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)

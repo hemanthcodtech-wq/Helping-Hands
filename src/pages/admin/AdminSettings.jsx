@@ -62,7 +62,7 @@ export default function AdminSettings() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/settings")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/settings")
       const data = await res.json()
       if (data.success && data.settings) {
         setSettings({ ...settings, ...data.settings })
@@ -112,7 +112,7 @@ export default function AdminSettings() {
       if (files.favicon) formData.append("favicon", files.favicon)
       if (files.pwaIcon) formData.append("pwaIcon", files.pwaIcon)
 
-      const res = await fetch("http://localhost:5000/api/settings", {
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/settings", {
         method: "PUT",
         body: formData,
       })

@@ -28,7 +28,7 @@ export default function CampaignDetail() {
 
   const fetchCampaign = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/campaigns/${id}`)
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/campaigns/${id}`)
       const data = await res.json()
       if (data.success) {
         setCampaign(data.campaign)
@@ -83,7 +83,7 @@ export default function CampaignDetail() {
           formData.append("payment_method", "razorpay")
           formData.append("txn_id", response.razorpay_payment_id)
           
-          const res = await fetch("http://localhost:5000/api/donations/donate", {
+          const res = await fetch("https://helpinghandsbe.vercel.app/api/donations/donate", {
             method: "POST",
             body: formData,
           })

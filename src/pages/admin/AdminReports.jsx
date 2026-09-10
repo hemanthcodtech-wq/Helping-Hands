@@ -10,8 +10,8 @@ export default function AdminReports() {
     const fetchData = async () => {
       try {
         const [donorsRes, volunteersRes] = await Promise.all([
-          fetch("http://localhost:5000/api/donations/all"),
-          fetch("http://localhost:5000/api/volunteers/all")
+          fetch("https://helpinghandsbe.vercel.app/api/donations/all"),
+          fetch("https://helpinghandsbe.vercel.app/api/volunteers/all")
         ])
         
         const donorsData = await donorsRes.json()

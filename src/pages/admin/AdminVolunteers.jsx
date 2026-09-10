@@ -27,7 +27,7 @@ export default function AdminVolunteers() {
 
   const fetchVolunteers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/volunteers/all")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/volunteers/all")
       const data = await res.json()
       if (data.success) {
         setVolunteers(data.volunteers)
@@ -39,7 +39,7 @@ export default function AdminVolunteers() {
 
   const fetchUpdates = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/volunteers/updates")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/volunteers/updates")
       const data = await res.json()
       if (data.success) {
         setVolunteerUpdates(data.updates)
@@ -62,7 +62,7 @@ export default function AdminVolunteers() {
   const updateVolunteerStatus = async (id, status) => {
     if (!window.confirm(`Are you sure you want to ${status} this volunteer?`)) return
     try {
-      const res = await fetch(`http://localhost:5000/api/volunteers/${status}/${id}`, {
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/volunteers/${status}/${id}`, {
         method: "POST"
       })
       const data = await res.json()
@@ -82,7 +82,7 @@ export default function AdminVolunteers() {
   const handlePost = async (e) => {
     e.preventDefault()
     try {
-      const res = await fetch("http://localhost:5000/api/volunteers/updates", {
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/volunteers/updates", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, volunteerId: Number(form.volunteerId) })
@@ -103,7 +103,7 @@ export default function AdminVolunteers() {
   const deleteVolunteerUpdate = async (id) => {
     if (!window.confirm("Are you sure you want to delete this update?")) return
     try {
-      const res = await fetch(`http://localhost:5000/api/volunteers/updates/${id}`, {
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/volunteers/updates/${id}`, {
         method: "DELETE"
       })
       const data = await res.json()

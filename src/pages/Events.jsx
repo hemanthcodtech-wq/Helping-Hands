@@ -11,7 +11,7 @@ export default function Events() {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/events")
+        const res = await fetch("https://helpinghandsbe.vercel.app/api/events")
         const data = await res.json()
         if (data.success) {
           setEvents(data.events.filter(i => i.type === 'event'))

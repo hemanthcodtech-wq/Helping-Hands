@@ -20,7 +20,7 @@ export default function AdminTestimonials() {
 
   const fetchTestimonials = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/testimonials")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/testimonials")
       const data = await res.json()
       if (data.success) {
         setTestimonials(data.testimonials)
@@ -49,7 +49,7 @@ export default function AdminTestimonials() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return
     try {
-      await fetch(`http://localhost:5000/api/testimonials/${id}`, { method: "DELETE" })
+      await fetch(`https://helpinghandsbe.vercel.app/api/testimonials/${id}`, { method: "DELETE" })
       fetchTestimonials()
     } catch (err) {
       console.error(err)
@@ -70,7 +70,7 @@ export default function AdminTestimonials() {
         formData.append("image", imageFile)
       }
 
-      await fetch("http://localhost:5000/api/testimonials", {
+      await fetch("https://helpinghandsbe.vercel.app/api/testimonials", {
         method: "POST",
         body: formData,
       })

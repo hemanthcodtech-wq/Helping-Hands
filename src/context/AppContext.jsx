@@ -48,8 +48,8 @@ export function AppProvider({ children }) {
     const fetchAndApplySettings = async () => {
       try {
         const [settingsRes, bankAccountsRes] = await Promise.all([
-          fetch("http://localhost:5000/api/settings"),
-          fetch("http://localhost:5000/api/bank-accounts")
+          fetch("https://helpinghandsbe.vercel.app/api/settings"),
+          fetch("https://helpinghandsbe.vercel.app/api/bank-accounts")
         ])
         
         const data = await settingsRes.json()
@@ -142,7 +142,7 @@ export function AppProvider({ children }) {
 
   const adminLogin = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch("https://helpinghandsbe.vercel.app/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -166,7 +166,7 @@ export function AppProvider({ children }) {
 
   const volunteerLogin = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch("https://helpinghandsbe.vercel.app/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })

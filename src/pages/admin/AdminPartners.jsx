@@ -19,7 +19,7 @@ export default function AdminPartners() {
 
   const fetchPartners = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/partners")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/partners")
       const data = await res.json()
       if (data.success) {
         setPartners(data.partners)
@@ -48,7 +48,7 @@ export default function AdminPartners() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this partner?")) return
     try {
-      await fetch(`http://localhost:5000/api/partners/${id}`, { method: "DELETE" })
+      await fetch(`https://helpinghandsbe.vercel.app/api/partners/${id}`, { method: "DELETE" })
       fetchPartners()
     } catch (err) {
       console.error(err)
@@ -68,7 +68,7 @@ export default function AdminPartners() {
         formData.append("image", imageFile)
       }
 
-      await fetch("http://localhost:5000/api/partners", {
+      await fetch("https://helpinghandsbe.vercel.app/api/partners", {
         method: "POST",
         body: formData,
       })

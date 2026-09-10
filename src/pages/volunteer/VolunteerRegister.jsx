@@ -33,7 +33,7 @@ export default function VolunteerRegister() {
     setLoading(true)
     setError("")
     try {
-      const response = await fetch("http://localhost:5000/api/volunteers/send-otp", {
+      const response = await fetch("https://helpinghandsbe.vercel.app/api/volunteers/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: applyForm.email, name: applyForm.name })
@@ -64,7 +64,7 @@ export default function VolunteerRegister() {
     });
 
     try {
-      const response = await fetch("http://localhost:5000/api/volunteers/apply", {
+      const response = await fetch("https://helpinghandsbe.vercel.app/api/volunteers/apply", {
         method: "POST",
         body: formData
       })

@@ -13,7 +13,7 @@ export default function AdminVolunteerRequests() {
     setLoading(true)
     setError("")
     try {
-      const res = await fetch("http://localhost:5000/api/volunteers/requests")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/volunteers/requests")
       const data = await res.json()
       if (data.success) {
         setRequests(data.requests)
@@ -33,7 +33,7 @@ export default function AdminVolunteerRequests() {
 
   const handleAction = async (id, action) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/volunteers/${action}/${id}`, { method: "POST" })
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/volunteers/${action}/${id}`, { method: "POST" })
       const data = await res.json()
       if (data.success) {
         setRequests(requests.filter(r => r.id !== id))

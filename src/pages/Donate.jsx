@@ -104,7 +104,7 @@ export default function Donate() {
     if (files.aadhaar_back) formData.append("aadhaar_back", files.aadhaar_back)
 
     try {
-      const response = await fetch("http://localhost:5000/api/donations/donate", {
+      const response = await fetch("https://helpinghandsbe.vercel.app/api/donations/donate", {
         method: "POST",
         body: formData
       })
@@ -114,7 +114,7 @@ export default function Donate() {
         // Automatically register as a member if a password is provided
         if (form.password) {
           try {
-            await fetch("http://localhost:5000/api/members/register", {
+            await fetch("https://helpinghandsbe.vercel.app/api/members/register", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({

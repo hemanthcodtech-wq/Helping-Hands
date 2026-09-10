@@ -15,7 +15,7 @@ export default function AdminPrograms() {
 
   const fetchPrograms = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/programs")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/programs")
       const data = await res.json()
       if (data.success) {
         setPrograms(data.programs)
@@ -48,7 +48,7 @@ export default function AdminPrograms() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this program?")) return
     try {
-      const res = await fetch(`http://localhost:5000/api/programs/${id}`, { method: "DELETE" })
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/programs/${id}`, { method: "DELETE" })
       const data = await res.json()
       if (data.success) fetchPrograms()
     } catch (err) {
@@ -69,7 +69,7 @@ export default function AdminPrograms() {
       if (form.image_url) formData.append("image_url", form.image_url)
       if (imageFile) formData.append("image", imageFile)
 
-      const url = editingId ? `http://localhost:5000/api/programs/${editingId}` : `http://localhost:5000/api/programs`
+      const url = editingId ? `https://helpinghandsbe.vercel.app/api/programs/${editingId}` : `https://helpinghandsbe.vercel.app/api/programs`
       const method = editingId ? "PUT" : "POST"
 
       const res = await fetch(url, {

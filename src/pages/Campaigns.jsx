@@ -26,7 +26,7 @@ export default function Campaigns() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/campaigns")
+    fetch("https://helpinghandsbe.vercel.app/api/campaigns")
       .then(res => res.json())
       .then(data => {
         if (data.success) {

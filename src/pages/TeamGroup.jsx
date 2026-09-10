@@ -19,7 +19,7 @@ export default function TeamGroup() {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/teams/${group}`)
+        const res = await fetch(`https://helpinghandsbe.vercel.app/api/teams/${group}`)
         const json = await res.json()
         if (json.success) {
           setMembers(json.members)

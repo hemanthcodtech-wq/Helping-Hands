@@ -18,7 +18,7 @@ export default function AdminEvents() {
 
   const fetchItems = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/events")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/events")
       const data = await res.json()
       if (data.success) {
         setItems(data.events)
@@ -37,7 +37,7 @@ export default function AdminEvents() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this?")) return
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${id}`, { method: 'DELETE' })
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/events/${id}`, { method: 'DELETE' })
       const data = await res.json()
       if (data.success) {
         fetchItems()
@@ -60,7 +60,7 @@ export default function AdminEvents() {
     if (form.image) formData.append("image", form.image)
     
     try {
-      const res = await fetch("http://localhost:5000/api/events", {
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/events", {
         method: "POST",
         body: formData
       })

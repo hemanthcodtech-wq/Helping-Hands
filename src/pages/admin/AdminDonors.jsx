@@ -12,7 +12,7 @@ export default function AdminDonors() {
   useEffect(() => {
     const fetchDonors = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/donations/all")
+        const response = await fetch("https://helpinghandsbe.vercel.app/api/donations/all")
         const data = await response.json()
         if (data.success) {
           setDonors(data.donations)

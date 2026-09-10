@@ -29,7 +29,7 @@ export default function AdminTeams() {
 
   const fetchMembers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/teams")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/teams")
       const data = await res.json()
       if (data.success) {
         setMembers(data.members)
@@ -72,7 +72,7 @@ export default function AdminTeams() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this team member?")) return
     try {
-      const res = await fetch(`http://localhost:5000/api/teams/${id}`, { method: 'DELETE' })
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/teams/${id}`, { method: 'DELETE' })
       const data = await res.json()
       if (data.success) {
         fetchMembers()
@@ -91,7 +91,7 @@ export default function AdminTeams() {
       formData.append("email", member.email || "")
       formData.append("is_visible", !member.is_visible)
       
-      const res = await fetch(`http://localhost:5000/api/teams/${member.id}`, {
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/teams/${member.id}`, {
         method: "PUT",
         body: formData
       })
@@ -115,7 +115,7 @@ export default function AdminTeams() {
     formData.append("is_visible", form.is_visible)
     if (imageFile) formData.append("image", imageFile)
 
-    const url = form.id ? `http://localhost:5000/api/teams/${form.id}` : "http://localhost:5000/api/teams"
+    const url = form.id ? `https://helpinghandsbe.vercel.app/api/teams/${form.id}` : "https://helpinghandsbe.vercel.app/api/teams"
     const method = form.id ? "PUT" : "POST"
 
     try {

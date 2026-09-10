@@ -11,7 +11,7 @@ export default function Programs() {
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/programs")
+        const res = await fetch("https://helpinghandsbe.vercel.app/api/programs")
         const data = await res.json()
         if (data.success) {
           // You might want to limit to the first 3 or 6 on the homepage

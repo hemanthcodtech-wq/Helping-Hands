@@ -32,7 +32,7 @@ export default function AdminContent() {
   const fetchItems = async (categoryToFetch) => {
     setLoading(true)
     try {
-      const res = await fetch(`http://localhost:5000/api/resources?category=${categoryToFetch}`)
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/resources?category=${categoryToFetch}`)
       const data = await res.json()
       if (data.success) {
         setItems(data.resources)
@@ -75,7 +75,7 @@ export default function AdminContent() {
     if (file) formData.append("file", file)
 
     try {
-      const res = await fetch("http://localhost:5000/api/resources", {
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/resources", {
         method: "POST",
         body: formData
       })
@@ -97,7 +97,7 @@ export default function AdminContent() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this item?")) return
     try {
-      const res = await fetch(`http://localhost:5000/api/resources/${id}`, { method: "DELETE" })
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/resources/${id}`, { method: "DELETE" })
       const data = await res.json()
       if (data.success) {
         const categoryToFetch = activeCategory === "certificates" ? activeSubCategory : activeCategory

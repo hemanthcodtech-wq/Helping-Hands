@@ -19,7 +19,7 @@ export default function AboutSubpage() {
     const fetchItems = async () => {
       setLoading(true)
       try {
-        const res = await fetch(`http://localhost:5000/api/resources?category=${type}`)
+        const res = await fetch(`https://helpinghandsbe.vercel.app/api/resources?category=${type}`)
         const json = await res.json()
         if (json.success) {
           setItems(json.resources)

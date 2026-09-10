@@ -10,7 +10,7 @@ export default function CampaignPopup() {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/campaigns")
+        const res = await fetch("https://helpinghandsbe.vercel.app/api/campaigns")
         const data = await res.json()
         if (data.success && data.campaigns.length > 0) {
           setCampaigns(data.campaigns)
