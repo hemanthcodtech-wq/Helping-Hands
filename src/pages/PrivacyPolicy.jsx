@@ -48,9 +48,9 @@ export default function PrivacyPolicy() {
           <p>If you have any questions about this Privacy Policy, the practices of this site, or your dealings with this site, please contact us at:</p>
           <p>
             <strong>Helping Hands Foundation</strong><br />
-            Main Road, Tirupati, Andhra Pradesh – 517501<br />
-            Email: help@helpinghands.org<br />
-            Phone: +91 98765 43210
+            H.No: 4-187/4, Ambabhavani Pet, Gowli Pet, Adoni – 518301, Kurnool District, A.P.<br />
+            Email: helpinghandsffoundation@gmail.com<br />
+            Phone: +91 77993 73766
           </p>
         </div>
       </section>

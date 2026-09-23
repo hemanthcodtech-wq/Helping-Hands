@@ -1,3 +1,4 @@
+import API_BASE from "../../lib/api"
 import { useState, useEffect } from "react"
 import { useNavigate, NavLink } from "react-router-dom"
 import { motion } from "framer-motion"
@@ -22,7 +23,7 @@ export default function MemberLogin() {
     setIsLoading(true)
 
     try {
-      const res = await fetch("http://localhost:5000/api/members/login", {
+      const res = await fetch(`${API_BASE}/api/members/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)

@@ -1,3 +1,4 @@
+import API_BASE from "../../lib/api"
 import { useState, useRef } from "react"
 import { useApp } from "../../context/AppContext"
 import { CheckCircle, Save, Camera } from "lucide-react"
@@ -50,7 +51,7 @@ export default function MemberProfile() {
         data.append("profile_picture", file)
       }
 
-      const res = await fetch(`http://localhost:5000/api/members/${loggedInMember.id}`, {
+      const res = await fetch(`${API_BASE}/api/members/${loggedInMember.id}`, {
         method: "PUT",
         body: data
       })

@@ -40,7 +40,7 @@ export default function TermsConditions() {
           <p>These terms shall be governed by and construed in accordance with the laws of India. Any disputes arising in connection with these terms shall be subject to the exclusive jurisdiction of the courts in Andhra Pradesh.</p>
 
           <h2>Contact Us</h2>
-          <p>If you have any questions about these Terms, please contact us at <strong>help@helpinghands.org</strong> or call us at <strong>+91 98765 43210</strong>.</p>
+          <p>If you have any questions about these Terms, please contact us at <strong>helpinghandsffoundation@gmail.com</strong> or call us at <strong>+91 77993 73766</strong>.</p>
         </div>
       </section>
     </main>

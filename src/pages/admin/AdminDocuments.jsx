@@ -1,3 +1,4 @@
+import API_BASE from "../../lib/api"
 import { useMemo, useState, useEffect } from "react"
 import { Award, Download, IdCard, Loader2, Mail, Printer, Search, Send, Users } from "lucide-react"
 import FadeIn from "../../components/Common/FadeIn"
@@ -77,7 +78,7 @@ function VolunteerIDPreview({ selected, recipientType, globalSettings }) {
       {/* Footer */}
       <div className="bg-[#f4f5f7] p-2 text-center border-t border-slate-100">
         <p className="text-[9px] font-medium text-slate-500">
-          If found, please return to: {globalSettings?.contactEmail || "foundationsarvabhyudaya@gmail.com"}
+          If found, please return to: {globalSettings?.contactEmail || "helpinghandsffoundation@gmail.com"}
         </p>
       </div>
     </div>
@@ -101,8 +102,8 @@ export default function AdminDocuments() {
     const fetchData = async () => {
       try {
         const [donorsRes, volunteersRes] = await Promise.all([
-          fetch("http://localhost:5000/api/donations/all"),
-          fetch("http://localhost:5000/api/volunteers/all")
+          fetch(`${API_BASE}/api/donations/all`),
+          fetch(`${API_BASE}/api/volunteers/all`)
         ])
         const donorsData = await donorsRes.json()
         const volunteersData = await volunteersRes.json()
@@ -136,7 +137,7 @@ export default function AdminDocuments() {
     if (!selected) return
 
     const orgName = globalSettings?.siteTitle?.toUpperCase() || "GLOBAL IMPACT FOUNDATION"
-    const contactEmail = globalSettings?.contactEmail || "foundationsarvabhyudaya@gmail.com"
+    const contactEmail = globalSettings?.contactEmail || "helpinghandsffoundation@gmail.com"
     const photoUrl = selected.profile_pic_url || ""
     const name = selected.name || "Volunteer"
     const role = selected.role || "Volunteer"
@@ -331,7 +332,7 @@ export default function AdminDocuments() {
       ctx.fillStyle = "#94a3b8"
       ctx.font = "14px sans-serif"
       ctx.textAlign = "center"
-      ctx.fillText(`If found, please return to: ${globalSettings?.contactEmail || "foundationsarvabhyudaya@gmail.com"}`, W / 2, H - 22)
+      ctx.fillText(`If found, please return to: ${globalSettings?.contactEmail || "helpinghandsffoundation@gmail.com"}`, W / 2, H - 22)
 
       const link = document.createElement("a")
       link.download = `${(selected.name || "volunteer").replace(/\s+/g, "-")}-id-card.png`

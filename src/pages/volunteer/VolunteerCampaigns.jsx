@@ -1,3 +1,4 @@
+import API_BASE from "../../lib/api"
 import { useEffect, useState } from "react"
 import { Flag, Search, Target, TrendingUp, Users } from "lucide-react"
 import FadeIn from "../../components/Common/FadeIn"
@@ -10,7 +11,7 @@ export default function VolunteerCampaigns() {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/campaigns")
+        const res = await fetch(`${API_BASE}/api/campaigns`)
         const data = await res.json()
         if (data.success) setCampaigns(data.campaigns)
       } catch (err) {

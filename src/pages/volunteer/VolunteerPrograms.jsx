@@ -1,3 +1,4 @@
+import API_BASE from "../../lib/api"
 import { useEffect, useState } from "react"
 import { Heart, BookOpen, Users, Calendar, Tag, ExternalLink } from "lucide-react"
 import FadeIn from "../../components/Common/FadeIn"
@@ -30,7 +31,7 @@ export default function VolunteerPrograms() {
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/programs")
+        const res = await fetch(`${API_BASE}/api/programs`)
         const data = await res.json()
         if (data.success) setPrograms(data.programs)
       } catch (err) {

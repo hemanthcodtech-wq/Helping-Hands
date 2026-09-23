@@ -1,3 +1,4 @@
+import API_BASE from "../lib/api"
 import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
@@ -104,7 +105,7 @@ export default function Donate() {
     if (files.aadhaar_back) formData.append("aadhaar_back", files.aadhaar_back)
 
     try {
-      const response = await fetch("http://localhost:5000/api/donations/donate", {
+      const response = await fetch(`${API_BASE}/api/donations/donate`, {
         method: "POST",
         body: formData
       })
@@ -114,7 +115,7 @@ export default function Donate() {
         // Automatically register as a member if a password is provided
         if (form.password) {
           try {
-            await fetch("http://localhost:5000/api/members/register", {
+            await fetch(`${API_BASE}/api/members/register`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({

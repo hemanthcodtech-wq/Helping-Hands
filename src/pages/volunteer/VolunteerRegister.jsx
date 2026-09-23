@@ -1,3 +1,4 @@
+import API_BASE from "../../lib/api"
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
@@ -79,7 +80,7 @@ export default function VolunteerRegister() {
     setLoading(true)
     setError("")
     try {
-      const res = await fetch("http://localhost:5000/api/volunteers/send-otp", {
+      const res = await fetch(`${API_BASE}/api/volunteers/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email, name: form.name })
@@ -108,7 +109,7 @@ export default function VolunteerRegister() {
       }
     })
     try {
-      const res = await fetch("http://localhost:5000/api/volunteers/apply", {
+      const res = await fetch(`${API_BASE}/api/volunteers/apply`, {
         method: "POST",
         body: formData
       })

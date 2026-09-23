@@ -341,8 +341,8 @@ export default function AdminCertificates() {
                     <img src={activeLogo} crossOrigin="anonymous" alt="Logo" className="w-16 h-16 object-contain" />
                     <div>
                       <h1 className="text-2xl font-extrabold text-[#087884] uppercase tracking-widest">{siteTitle}</h1>
-                      <p className="text-xs font-bold" style={{ color: "#6b7280" }}>{s.contactFullAddress || "123 Charity Lane, Hope City, HC 56789"}</p>
-                      <p className="text-xs font-bold" style={{ color: "#6b7280" }}>{s.contactEmail || "contact@helpinghands.org"} | {s.contactPhonePrimary || "+1 (555) 123-4567"}</p>
+                      <p className="text-xs font-bold" style={{ color: "#6b7280" }}>{s.contactFullAddress || "H.No: 4-187/4, Ambabhavani Pet, Gowli Pet, Adoni – 518301, Kurnool District, A.P."}</p>
+                      <p className="text-xs font-bold" style={{ color: "#6b7280" }}>{s.contactEmail || "helpinghandsffoundation@gmail.com"} | {s.contactPhonePrimary || "+91 77993 73766"}</p>
                     </div>
                   </div>
                 </div>

@@ -10,9 +10,9 @@ export default function Contact() {
   const s = globalSettings || {}
 
   const CONTACT_INFO = [
-    { icon: MapPin, label: "Address", value: s.contactFullAddress || "12 Community Road, New Delhi, India 110001" },
-    { icon: Phone, label: "Phone", value: s.contactPhonePrimary || "+91 98765 43210" },
-    { icon: Mail, label: "Email", value: s.contactEmail || "care@helpinghands.org" },
+    { icon: MapPin, label: "Address", value: s.contactFullAddress || "H.No: 4-187/4, Ambabhavani Pet, Gowli Pet, Adoni – 518301, Kurnool District, A.P." },
+    { icon: Phone, label: "Phone", value: s.contactPhonePrimary || "+91 77993 73766" },
+    { icon: Mail, label: "Email", value: s.contactEmail || "helpinghandsffoundation@gmail.com" },
   ]
 
   const handleSubmit = (e) => {

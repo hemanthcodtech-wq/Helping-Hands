@@ -1,3 +1,4 @@
+import API_BASE from "../lib/api"
 import { createContext, useContext, useState, useEffect } from "react"
 import { gallery as galleryData } from "../data/content"
 
@@ -53,8 +54,8 @@ export function AppProvider({ children }) {
     const fetchAndApplySettings = async () => {
       try {
         const [settingsRes, bankAccountsRes] = await Promise.all([
-          fetch("http://localhost:5000/api/settings"),
-          fetch("http://localhost:5000/api/bank-accounts")
+          fetch(`${API_BASE}/api/settings`),
+          fetch(`${API_BASE}/api/bank-accounts`)
         ])
         
         const data = await settingsRes.json()
@@ -151,10 +152,10 @@ export function AppProvider({ children }) {
       try {
         const id = loggedInVolunteer.id;
         const [actRes, campRes, progRes, certRes] = await Promise.all([
-          fetch(`http://localhost:5000/api/volunteers/${id}/activities`),
-          fetch(`http://localhost:5000/api/volunteers/${id}/campaigns`),
-          fetch(`http://localhost:5000/api/volunteers/${id}/programs`),
-          fetch(`http://localhost:5000/api/volunteers/${id}/certificates`),
+          fetch(`${API_BASE}/api/volunteers/${id}/activities`),
+          fetch(`${API_BASE}/api/volunteers/${id}/campaigns`),
+          fetch(`${API_BASE}/api/volunteers/${id}/programs`),
+          fetch(`${API_BASE}/api/volunteers/${id}/certificates`),
         ]);
         const [act, camp, prog, cert] = await Promise.all([actRes.json(), campRes.json(), progRes.json(), certRes.json()]);
         
@@ -171,7 +172,7 @@ export function AppProvider({ children }) {
 
   const adminLogin = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch(`${API_BASE}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -195,7 +196,7 @@ export function AppProvider({ children }) {
 
   const volunteerLogin = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch(`${API_BASE}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
