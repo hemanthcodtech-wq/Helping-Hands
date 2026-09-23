@@ -104,7 +104,7 @@ export default function Donate() {
     if (files.aadhaar_back) formData.append("aadhaar_back", files.aadhaar_back)
 
     try {
-      const response = await fetch("https://helpinghandsbe.vercel.app/api/donations/donate", {
+      const response = await fetch("http://localhost:5000/api/donations/donate", {
         method: "POST",
         body: formData
       })
@@ -114,7 +114,7 @@ export default function Donate() {
         // Automatically register as a member if a password is provided
         if (form.password) {
           try {
-            await fetch("https://helpinghandsbe.vercel.app/api/members/register", {
+            await fetch("http://localhost:5000/api/members/register", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -128,7 +128,8 @@ export default function Donate() {
                 state: form.state,
                 district: form.district,
                 pincode: form.pincode,
-                blood_group: form.blood_group
+                blood_group: form.blood_group,
+                profile_picture_url: data.profile_pic_url
               })
             })
           } catch (e) {

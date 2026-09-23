@@ -7,6 +7,7 @@ export default function AdminMembers() {
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [profileFile, setProfileFile] = useState(null)
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", password: "",
     membership_tier: "Gram Panchayat Membership",
@@ -57,14 +58,18 @@ export default function AdminMembers() {
   const handleSave = async (e) => {
     e.preventDefault()
     try {
+      const data = new FormData()
+      Object.keys(formData).forEach(key => data.append(key, formData[key]))
+      if (profileFile) data.append("profile_picture", profileFile)
+
       const res = await fetch("https://helpinghandsbe.vercel.app/api/members/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: data,
       })
       if (res.ok) {
         setIsModalOpen(false)
         setFormData({ name: "", email: "", phone: "", password: "", membership_tier: "Gram Panchayat Membership", aadhaar: "", address: "", state: "", district: "", pincode: "", blood_group: "" })
+        setProfileFile(null)
         fetchMembers()
       } else {
         alert("Failed to add member. Email might already exist.")
@@ -198,6 +203,9 @@ export default function AdminMembers() {
                 </label>
                 <label className="block"><span className="mb-1.5 block text-xs font-bold text-primary">Pincode</span>
                   <input type="text" value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} className={inputClass} placeholder="Pincode" />
+                </label>
+                <label className="block col-span-3"><span className="mb-1.5 block text-xs font-bold text-primary">Profile Picture</span>
+                  <input type="file" accept="image/*" onChange={e => setProfileFile(e.target.files[0])} className={`${inputClass} !py-2.5`} />
                 </label>
               </div>
               <div className="flex justify-end gap-3 pt-4 border-t border-border">

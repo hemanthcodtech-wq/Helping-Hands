@@ -1,25 +1,159 @@
 import { useRef } from "react"
 import { useApp } from "../../context/AppContext"
 import { Download, IdCard } from "lucide-react"
-import html2canvas from "html2canvas"
 
 export default function MemberDocuments() {
   const { loggedInMember, globalSettings } = useApp()
   const idCardRef = useRef(null)
 
   const s = globalSettings || {}
-  const logo = s.headerLogoUrl || "/logo.png"
+  const logo = "https://res.cloudinary.com/dwmjz9csc/image/upload/v1786889497/9ec8064b-61d9-4e70-897d-4790e9ea2cdf-removebg-preview_ogtw6d.png"
+
+  const loadImage = (src) =>
+    new Promise((resolve) => {
+      const img = new Image()
+      img.crossOrigin = "anonymous"
+      img.onload = () => resolve(img)
+      img.onerror = () => resolve(null)
+      img.src = src
+    })
 
   const downloadIdCard = async () => {
-    if (!idCardRef.current) return
+    if (!loggedInMember) return
     try {
-      const canvas = await html2canvas(idCardRef.current, { scale: 3, useCORS: true, backgroundColor: null })
+      const W = 700, H = 960
+      const canvas = document.createElement("canvas")
+      canvas.width = W
+      canvas.height = H
+      const ctx = canvas.getContext("2d")
+
+      // Background
+      ctx.fillStyle = "#f8faff"
+      ctx.fillRect(0, 0, W, H)
+
+      // Header (Blue)
+      ctx.fillStyle = "#04458F"
+      ctx.fillRect(0, 0, W, 220)
+
+      // Logo
+      const logoImg = await loadImage(logo)
+      if (logoImg) {
+        // Draw white box for logo
+        ctx.fillStyle = "#ffffff"
+        ctx.roundRect(40, 40, 100, 100, 16)
+        ctx.fill()
+        ctx.drawImage(logoImg, 50, 50, 80, 80)
+      }
+
+      ctx.fillStyle = "#ffffff"
+      ctx.font = "900 28px Georgia, serif"
+      ctx.textAlign = "left"
+      ctx.fillText(s.ngoName || "HELPING HANDS FOUNDATION", 160, 90)
+      ctx.font = "500 16px sans-serif"
+      ctx.fillStyle = "rgba(255,255,255,0.8)"
+      ctx.fillText(`Regd. No: ${s.cert12a || "12A-XXXXX"}`, 160, 120)
+
+      // Photo Circle
+      ctx.beginPath()
+      ctx.arc(W / 2, 280, 100, 0, Math.PI * 2)
+      ctx.fillStyle = "#ffffff"
+      ctx.fill()
+      ctx.lineWidth = 6
+      ctx.strokeStyle = "#f1f5f9"
+      ctx.stroke()
+
+      const profileImg = loggedInMember.profile_picture_url ? await loadImage(loggedInMember.profile_picture_url) : null
+      ctx.save()
+      ctx.beginPath()
+      ctx.arc(W / 2, 280, 94, 0, Math.PI * 2)
+      ctx.clip()
+      if (profileImg) {
+        ctx.drawImage(profileImg, W / 2 - 94, 280 - 94, 188, 188)
+      } else {
+        ctx.fillStyle = "#eef7e9"
+        ctx.fill()
+        ctx.fillStyle = "#196823"
+        ctx.font = "bold 80px sans-serif"
+        ctx.textAlign = "center"
+        ctx.textBaseline = "middle"
+        ctx.fillText(loggedInMember.name.charAt(0).toUpperCase(), W / 2, 280)
+      }
+      ctx.restore()
+
+      // Name & Tier
+      ctx.textBaseline = "alphabetic"
+      ctx.fillStyle = "#061D49"
+      ctx.font = "900 42px Georgia, serif"
+      ctx.textAlign = "center"
+      ctx.fillText(loggedInMember.name, W / 2, 440)
+      
+      // Tier Badge
+      ctx.fillStyle = "#eef7e9"
+      ctx.roundRect(W / 2 - 120, 460, 240, 40, 20)
+      ctx.fill()
+      ctx.fillStyle = "#196823"
+      ctx.font = "bold 16px sans-serif"
+      ctx.fillText(loggedInMember.membership_tier || "Official Member", W / 2, 486)
+
+      // Details Grid
+      const fields = [
+        ["ID No.", `HHF-M-${loggedInMember.id?.toString().padStart(4, '0') || '0000'}`],
+        ["Blood Group", loggedInMember.blood_group || "N/A"],
+        ["Phone", loggedInMember.phone || "N/A"]
+      ]
+
+      ctx.textAlign = "left"
+      fields.forEach(([label, val], i) => {
+        const y = 580 + (i * 70)
+        
+        ctx.fillStyle = "#64748b"
+        ctx.font = "bold 20px sans-serif"
+        ctx.fillText(label, 80, y)
+        
+        ctx.fillStyle = label === "Blood Group" ? "#dc2626" : "#061D49"
+        ctx.font = "bold 20px sans-serif"
+        ctx.fillText(val, 280, y)
+        
+        // Line
+        ctx.beginPath()
+        ctx.moveTo(80, y + 24)
+        ctx.lineTo(W - 80, y + 24)
+        ctx.strokeStyle = "#e2e8f0"
+        ctx.lineWidth = 1
+        ctx.stroke()
+      })
+
+      // Footer
+      ctx.fillStyle = "#eff6ff"
+      ctx.fillRect(0, H - 140, W, 140)
+      
+      ctx.fillStyle = "#64748b"
+      ctx.font = "500 16px sans-serif"
+      ctx.fillText("If found, please return to:", 60, H - 80)
+      ctx.fillText(s.contactPhonePrimary || "+91 98765 43210", 60, H - 54)
+
+      ctx.textAlign = "right"
+      ctx.fillStyle = "#04458F"
+      ctx.font = "italic 18px Georgia, serif"
+      ctx.fillText("Authorised", W - 60, H - 76)
+      
+      ctx.beginPath()
+      ctx.moveTo(W - 160, H - 60)
+      ctx.lineTo(W - 60, H - 60)
+      ctx.strokeStyle = "rgba(4,69,143,0.2)"
+      ctx.stroke()
+      
+      ctx.fillStyle = "#64748b"
+      ctx.font = "bold 12px sans-serif"
+      ctx.fillText((s.signatoryName || "Director").toUpperCase(), W - 60, H - 40)
+
       const link = document.createElement("a")
       link.download = `ID_Card_${loggedInMember.name.replace(/\s+/g, '_')}.png`
       link.href = canvas.toDataURL("image/png")
       link.click()
     } catch (err) {
       console.error("Failed to generate ID card:", err)
+      alert("Could not generate ID card image.")
     }
   }
 

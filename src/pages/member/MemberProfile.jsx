@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useApp } from "../../context/AppContext"
-import { CheckCircle, Save, UserCircle } from "lucide-react"
+import { CheckCircle, Save, Camera } from "lucide-react"
 
 export default function MemberProfile() {
   const { loggedInMember, memberLogin } = useApp()
@@ -14,31 +14,61 @@ export default function MemberProfile() {
     blood_group: loggedInMember.blood_group || "",
     aadhaar: loggedInMember.aadhaar || "",
   })
+  const [file, setFile] = useState(null)
+  const [preview, setPreview] = useState(loggedInMember.profile_picture_url || null)
   
   const [isSaving, setIsSaving] = useState(false)
   const [message, setMessage] = useState("")
+  const [error, setError] = useState("")
+  
+  const fileInputRef = useRef(null)
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleFileChange = (e) => {
+    const selected = e.target.files[0]
+    if (selected) {
+      setFile(selected)
+      setPreview(URL.createObjectURL(selected))
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSaving(true)
     setMessage("")
+    setError("")
 
     try {
-      // In a real app, you would have a PUT /api/members/:id endpoint
-      // For now we will just simulate success and update context
-      setTimeout(() => {
-        memberLogin({ ...loggedInMember, ...formData })
+      const data = new FormData()
+      Object.keys(formData).forEach(key => {
+        data.append(key, formData[key])
+      })
+      if (file) {
+        data.append("profile_picture", file)
+      }
+
+      const res = await fetch(`http://localhost:5000/api/members/${loggedInMember.id}`, {
+        method: "PUT",
+        body: data
+      })
+      const result = await res.json()
+
+      if (result.success) {
+        memberLogin(result.member) // Update context and local storage
         setMessage("Profile updated successfully!")
-        setIsSaving(false)
-        setTimeout(() => setMessage(""), 3000)
-      }, 1000)
+        setFile(null)
+      } else {
+        setError(result.error || "Failed to update profile")
+      }
     } catch (error) {
       console.error(error)
+      setError("Network error. Please try again.")
+    } finally {
       setIsSaving(false)
+      setTimeout(() => setMessage(""), 4000)
     }
   }
 
@@ -53,12 +83,22 @@ export default function MemberProfile() {
 
       <div className="rounded-2xl border border-border bg-card shadow-sm">
         <div className="border-b border-border p-6 sm:p-8 flex items-center gap-6">
-          <div className="relative size-24 shrink-0 overflow-hidden rounded-full border-4 border-muted bg-primary-soft">
-            {loggedInMember.profile_picture_url ? (
-              <img src={loggedInMember.profile_picture_url} alt="Profile" className="size-full object-cover" />
-            ) : (
-              <div className="grid size-full place-items-center text-3xl font-bold text-teal">{loggedInMember.name.charAt(0)}</div>
-            )}
+          <div className="relative size-24 shrink-0">
+            <div className="size-full overflow-hidden rounded-full border-4 border-muted bg-primary-soft">
+              {preview ? (
+                <img src={preview} alt="Profile" className="size-full object-cover" crossOrigin="anonymous" />
+              ) : (
+                <div className="grid size-full place-items-center text-3xl font-bold text-teal">{loggedInMember.name.charAt(0)}</div>
+              )}
+            </div>
+            <button 
+              onClick={() => fileInputRef.current?.click()}
+              className="absolute bottom-0 right-0 grid size-8 place-items-center rounded-full bg-teal text-white shadow-md transition hover:bg-teal-dark"
+              title="Change Profile Picture"
+            >
+              <Camera className="size-4" />
+            </button>
+            <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
           </div>
           <div>
             <h2 className="text-xl font-extrabold text-primary">{loggedInMember.name}</h2>
@@ -73,6 +113,11 @@ export default function MemberProfile() {
           {message && (
             <div className="flex items-center gap-2 rounded-xl bg-[#eef7e9] p-4 text-sm font-semibold text-[#196823]">
               <CheckCircle className="size-5" /> {message}
+            </div>
+          )}
+          {error && (
+            <div className="rounded-xl bg-red-50 p-4 text-sm font-semibold text-red-600">
+              {error}
             </div>
           )}
 

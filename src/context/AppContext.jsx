@@ -32,6 +32,11 @@ export function AppProvider({ children }) {
     { id: 1, volunteerId: 1, title: "Education Camp Scheduled", message: "You are assigned to the Education Camp in Delhi on June 10. Please confirm attendance.", date: "2024-05-20", type: "assignment" },
     { id: 2, volunteerId: 3, title: "New Activity Added", message: "A food distribution drive has been added for June 5 in Bangalore. You are invited to participate.", date: "2024-05-18", type: "activity" },
   ])
+  
+  const [volunteerActivities, setVolunteerActivities] = useState([])
+  const [volunteerCampaigns, setVolunteerCampaigns] = useState([])
+  const [volunteerPrograms, setVolunteerPrograms] = useState([])
+  const [volunteerCertificates, setVolunteerCertificates] = useState([])
   const [loggedInVolunteer, setLoggedInVolunteer] = useState(() => {
     const saved = localStorage.getItem('loggedInVolunteer')
     return saved ? JSON.parse(saved) : null
@@ -48,8 +53,8 @@ export function AppProvider({ children }) {
     const fetchAndApplySettings = async () => {
       try {
         const [settingsRes, bankAccountsRes] = await Promise.all([
-          fetch("https://helpinghandsbe.vercel.app/api/settings"),
-          fetch("https://helpinghandsbe.vercel.app/api/bank-accounts")
+          fetch("http://localhost:5000/api/settings"),
+          fetch("http://localhost:5000/api/bank-accounts")
         ])
         
         const data = await settingsRes.json()
@@ -140,9 +145,33 @@ export function AppProvider({ children }) {
     fetchAndApplySettings()
   }, [])
 
+    useEffect(() => {
+    const fetchVolunteerData = async () => {
+      if (!loggedInVolunteer?.id) return;
+      try {
+        const id = loggedInVolunteer.id;
+        const [actRes, campRes, progRes, certRes] = await Promise.all([
+          fetch(`http://localhost:5000/api/volunteers/${id}/activities`),
+          fetch(`http://localhost:5000/api/volunteers/${id}/campaigns`),
+          fetch(`http://localhost:5000/api/volunteers/${id}/programs`),
+          fetch(`http://localhost:5000/api/volunteers/${id}/certificates`),
+        ]);
+        const [act, camp, prog, cert] = await Promise.all([actRes.json(), campRes.json(), progRes.json(), certRes.json()]);
+        
+        if (act.success) setVolunteerActivities(act.activities);
+        if (camp.success) setVolunteerCampaigns(camp.campaigns);
+        if (prog.success) setVolunteerPrograms(prog.programs);
+        if (cert.success) setVolunteerCertificates(cert.certificates);
+      } catch (err) {
+        console.error("Failed to fetch volunteer data:", err);
+      }
+    };
+    fetchVolunteerData();
+  }, [loggedInVolunteer]);
+
   const adminLogin = async (email, password) => {
     try {
-      const response = await fetch("https://helpinghandsbe.vercel.app/api/login", {
+      const response = await fetch("http://localhost:5000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -166,7 +195,7 @@ export function AppProvider({ children }) {
 
   const volunteerLogin = async (email, password) => {
     try {
-      const response = await fetch("https://helpinghandsbe.vercel.app/api/login", {
+      const response = await fetch("http://localhost:5000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })
@@ -179,10 +208,20 @@ export function AppProvider({ children }) {
           setLoggedInVolunteer(vol)
           localStorage.setItem('loggedInVolunteer', JSON.stringify(vol))
         } else {
-          // If not in static list, just set a basic object
-          const basicVol = { id: data.user.id, name: "Volunteer", email: data.user.email, role: "Volunteer" }
-          setLoggedInVolunteer(basicVol)
-          localStorage.setItem('loggedInVolunteer', JSON.stringify(basicVol))
+          // If not in static list, use the db data
+          const dbVol = { 
+            id: data.user.id, 
+            name: data.user.name || "Volunteer", 
+            email: data.user.email, 
+            role: data.user.area_of_interest || data.user.role,
+            phone: data.user.phone,
+            city: data.user.city,
+            status: data.user.status,
+            appliedDate: data.user.appliedDate ? new Date(data.user.appliedDate).toISOString().slice(0,10) : "N/A",
+            photo: data.user.photo
+          }
+          setLoggedInVolunteer(dbVol)
+          localStorage.setItem('loggedInVolunteer', JSON.stringify(dbVol))
         }
         return { success: true }
       }
@@ -231,6 +270,7 @@ export function AppProvider({ children }) {
   return (
     <AppContext.Provider value={{
       globalSettings, bankAccounts, donors, volunteers, galleryImgs, volunteerUpdates, loggedInVolunteer, loggedInMember,
+      volunteerActivities, volunteerCampaigns, volunteerPrograms, volunteerCertificates,
       addDonor, updateVolunteerStatus, addVolunteer,
       addVolunteerUpdate, deleteVolunteerUpdate,
       volunteerLogin, volunteerLogout,

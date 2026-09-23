@@ -38,7 +38,13 @@ export default function MemberLayout() {
         
         <div className="p-5">
           <div className="rounded-2xl bg-primary-soft p-4 text-center">
-            <div className="mx-auto grid size-12 place-items-center rounded-full bg-white text-teal shadow-sm"><UserCircle className="size-6" /></div>
+            <div className="mx-auto size-12 rounded-full bg-white text-teal shadow-sm overflow-hidden flex items-center justify-center">
+              {loggedInMember.profile_picture_url ? (
+                <img src={loggedInMember.profile_picture_url} alt={loggedInMember.name} className="size-full object-cover" crossOrigin="anonymous" />
+              ) : (
+                <span className="text-lg font-bold text-teal">{loggedInMember.name.charAt(0)}</span>
+              )}
+            </div>
             <h3 className="mt-3 font-bold text-primary">{loggedInMember.name}</h3>
             <span className="mt-1 inline-block rounded-full bg-teal/10 px-2 py-0.5 text-[9px] font-bold text-teal">{loggedInMember.membership_tier || "Member"}</span>
           </div>
@@ -66,7 +72,13 @@ export default function MemberLayout() {
           <div className="flex flex-1 items-center justify-end">
             <div className="flex items-center gap-3">
               <div className="text-right hidden sm:block"><p className="text-sm font-bold text-primary">{loggedInMember.name}</p><p className="text-[10px] text-muted-foreground">{loggedInMember.email}</p></div>
-              <div className="grid size-10 place-items-center rounded-full bg-primary-soft text-teal font-bold">{loggedInMember.name.charAt(0)}</div>
+              <div className="size-10 rounded-full bg-primary-soft overflow-hidden flex items-center justify-center font-bold text-teal">
+                {loggedInMember.profile_picture_url ? (
+                  <img src={loggedInMember.profile_picture_url} alt={loggedInMember.name} className="size-full object-cover" crossOrigin="anonymous" />
+                ) : (
+                  <span>{loggedInMember.name.charAt(0)}</span>
+                )}
+              </div>
             </div>
           </div>
         </header>

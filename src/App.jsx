@@ -53,6 +53,12 @@ import MemberDashboard from "./pages/member/MemberDashboard"
 import MemberDonations from "./pages/member/MemberDonations"
 import MemberDocuments from "./pages/member/MemberDocuments"
 import MemberProfile from "./pages/member/MemberProfile"
+import VolunteerLayout from "./pages/volunteer/VolunteerLayout"
+import VolunteerDashboard from "./pages/volunteer/VolunteerDashboard"
+import VolunteerCampaigns from "./pages/volunteer/VolunteerCampaigns"
+import VolunteerPrograms from "./pages/volunteer/VolunteerPrograms"
+import VolunteerIDCard from "./pages/volunteer/VolunteerIDCard"
+import VolunteerCertificates from "./pages/volunteer/VolunteerCertificates"
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -95,6 +101,13 @@ export default function App() {
           <Route path="donations" element={<MemberDonations />} />
           <Route path="documents" element={<MemberDocuments />} />
           <Route path="profile" element={<MemberProfile />} />
+        </Route>
+        <Route path="/volunteer-portal" element={<VolunteerLayout />}>
+          <Route index element={<VolunteerDashboard />} />
+          <Route path="campaigns" element={<VolunteerCampaigns />} />
+          <Route path="programs" element={<VolunteerPrograms />} />
+          <Route path="id-card" element={<VolunteerIDCard />} />
+          <Route path="certificates" element={<VolunteerCertificates />} />
         </Route>
         <Route path="/*" element={<><Header /><Routes>
           <Route path="/" element={<Home />} />
