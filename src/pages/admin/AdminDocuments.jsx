@@ -30,7 +30,7 @@ function VolunteerIDPreview({ selected, recipientType, globalSettings }) {
           crossOrigin="anonymous"
         />
         <h2 className="text-sm font-bold uppercase tracking-wider text-white">
-          {globalSettings?.siteTitle || "GLOBAL IMPACT FOUNDATION"}
+          {globalSettings?.siteTitle || "HELPING HANDS FOUNDATION"}
         </h2>
         <p className="text-[10px] font-medium text-white/90">
           Official {recipientType === "volunteer" ? "Volunteer" : recipientType === "donor" ? "Donor" : "Member"} Identity Card
@@ -136,7 +136,7 @@ export default function AdminDocuments() {
   const printDocument = () => {
     if (!selected) return
 
-    const orgName = globalSettings?.siteTitle?.toUpperCase() || "GLOBAL IMPACT FOUNDATION"
+    const orgName = globalSettings?.siteTitle?.toUpperCase() || "HELPING HANDS FOUNDATION"
     const contactEmail = globalSettings?.contactEmail || "helpinghandsffoundation@gmail.com"
     const photoUrl = selected.profile_pic_url || ""
     const name = selected.name || "Volunteer"
@@ -256,7 +256,7 @@ export default function AdminDocuments() {
       ctx.fillStyle = "#ffffff"
       ctx.font = "bold 26px sans-serif"
       ctx.textAlign = "center"
-      ctx.fillText(globalSettings?.siteTitle?.toUpperCase() || "GLOBAL IMPACT FOUNDATION", W / 2, 140)
+      ctx.fillText(globalSettings?.siteTitle?.toUpperCase() || "HELPING HANDS FOUNDATION", W / 2, 140)
       ctx.font = "16px sans-serif"
       ctx.fillStyle = "rgba(255,255,255,0.85)"
       ctx.fillText("Official Volunteer Identity Card", W / 2, 168)

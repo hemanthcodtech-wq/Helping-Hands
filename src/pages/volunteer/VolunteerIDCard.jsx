@@ -68,7 +68,7 @@ export default function VolunteerIDCard() {
       ctx.font = "bold 26px sans-serif"
       ctx.textAlign = "center"
       ctx.fillText(
-        globalSettings?.siteTitle?.toUpperCase() || "GLOBAL IMPACT FOUNDATION",
+        globalSettings?.siteTitle?.toUpperCase() || "HELPING HANDS FOUNDATION",
         W / 2, 140
       )
 
@@ -188,7 +188,7 @@ export default function VolunteerIDCard() {
             <div className="bg-[#4a8a2a] px-6 pt-6 pb-14 text-white text-center flex flex-col items-center rounded-t-2xl">
               <Logo className="h-12 w-auto mb-3" />
               <h2 className="text-lg font-bold uppercase tracking-wider text-white">
-                {globalSettings?.siteTitle || "GLOBAL IMPACT FOUNDATION"}
+                {globalSettings?.siteTitle || "HELPING HANDS FOUNDATION"}
               </h2>
               <p className="text-xs font-medium text-white/90">Official Volunteer Identity Card</p>
             </div>
