@@ -15,8 +15,18 @@ const MEMBERSHIPS = [
 
 const PAYMENT_METHODS = [
   { id: "razorpay", title: "Razorpay", detail: "Card / UPI / Net Banking", icon: CreditCard },
-  { id: "offline", title: "UPI / Bank / Cash", detail: "Verify your payment manually", icon: Landmark },
 ]
+
+function loadRazorpay() {
+  return new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true)
+    const script = document.createElement("script")
+    script.src = "https://checkout.razorpay.com/v1/checkout.js"
+    script.onload = () => resolve(true)
+    script.onerror = () => resolve(false)
+    document.body.appendChild(script)
+  })
+}
 
 const FIELD = ({ label, children, required = false, className = "" }) => (
   <label className={`block ${className}`}>
@@ -54,7 +64,9 @@ export default function Donate() {
     district: "",
     working_area: "",
     pincode: "",
-    address: ""
+    address: "",
+    requests_80g: false,
+    pan_number: ""
   })
   
   const [files, setFiles] = useState({
@@ -79,76 +91,110 @@ export default function Donate() {
     event.preventDefault()
     setLoading(true)
     setError("")
-    
-    const formData = new FormData()
-    formData.append("amount", form.membership)
-    formData.append("payment_method", form.payment)
-    formData.append("recurring", form.recurring)
-    formData.append("designation", form.designation)
-    formData.append("name", form.name)
-    formData.append("gender", form.gender)
-    formData.append("parent_name", form.parent_name)
-    formData.append("dob", form.dob)
-    formData.append("profession", form.profession)
-    formData.append("blood_group", form.blood_group)
-    formData.append("email", form.email)
-    formData.append("phone", form.phone)
-    formData.append("aadhaar", form.aadhaar)
-    formData.append("state", form.state)
-    formData.append("district", form.district)
-    formData.append("working_area", form.working_area)
-    formData.append("pincode", form.pincode)
-    formData.append("address", form.address)
-    
-    if (files.profile_picture) formData.append("profile_picture", files.profile_picture)
-    if (files.aadhaar_front) formData.append("aadhaar_front", files.aadhaar_front)
-    if (files.aadhaar_back) formData.append("aadhaar_back", files.aadhaar_back)
 
-    try {
-      const response = await fetch(`${API_BASE}/api/donations/donate`, {
-        method: "POST",
-        body: formData
-      })
-      const data = await response.json()
-      
-      if (data.success) {
-        // Automatically register as a member if a password is provided
-        if (form.password) {
-          try {
-            await fetch(`${API_BASE}/api/members/register`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                name: form.name,
-                email: form.email,
-                phone: form.phone,
-                password: form.password,
-                membership_tier: MEMBERSHIPS.find(m => m[1] === form.membership)?.[0] || "Member",
-                aadhaar: form.aadhaar,
-                address: form.address,
-                state: form.state,
-                district: form.district,
-                pincode: form.pincode,
-                blood_group: form.blood_group,
-                profile_picture_url: data.profile_pic_url
-              })
-            })
-          } catch (e) {
-            console.error("Auto-registration failed:", e)
-          }
-        }
-        
-        setSubmitted(true)
-      } else {
-        setError(data.message || "Failed to submit application.")
-      }
-    } catch (err) {
-      setError("Network error. Please try again later.")
-    } finally {
+    const loaded = await loadRazorpay()
+    if (!loaded) {
+      setError("Razorpay failed to load. Check your internet connection.")
       setLoading(false)
+      return
     }
-  }
 
+    const options = {
+      key: "rzp_test_TZvGeQCY7vlXkN", // Replace with your actual Razorpay Key ID
+      amount: parseInt(form.membership) * 100, // paise
+      currency: "INR",
+      name: "Helping Hands Foundation",
+      description: "Membership Registration",
+      image: "/placeholder-logo.svg",
+      prefill: {
+        name: form.name,
+        email: form.email,
+        contact: form.phone,
+      },
+      theme: { color: "#087884" },
+      handler: async function (paymentResponse) {
+        try {
+          const formData = new FormData()
+          formData.append("amount", form.membership)
+          formData.append("payment_method", form.payment)
+          formData.append("recurring", form.recurring)
+          formData.append("designation", form.designation)
+          formData.append("name", form.name)
+          formData.append("gender", form.gender)
+          formData.append("parent_name", form.parent_name)
+          formData.append("dob", form.dob)
+          formData.append("profession", form.profession)
+          formData.append("blood_group", form.blood_group)
+          formData.append("email", form.email)
+          formData.append("phone", form.phone)
+          formData.append("aadhaar", form.aadhaar)
+          formData.append("state", form.state)
+          formData.append("district", form.district)
+          formData.append("working_area", form.working_area)
+          formData.append("pincode", form.pincode)
+          formData.append("address", form.address)
+          formData.append("requests_80g", form.requests_80g)
+          if (form.requests_80g) {
+            formData.append("pan_number", form.pan_number)
+          }
+          formData.append("txn_id", paymentResponse.razorpay_payment_id)
+          
+          if (files.profile_picture) formData.append("profile_picture", files.profile_picture)
+          if (files.aadhaar_front) formData.append("aadhaar_front", files.aadhaar_front)
+          if (files.aadhaar_back) formData.append("aadhaar_back", files.aadhaar_back)
+
+          const response = await fetch(`${API_BASE}/api/donations/donate`, {
+            method: "POST",
+            body: formData
+          })
+          const data = await response.json()
+          
+          if (data.success) {
+            // Automatically register as a member if a password is provided
+            if (form.password) {
+              try {
+                await fetch(`${API_BASE}/api/members/register`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    name: form.name,
+                    email: form.email,
+                    phone: form.phone,
+                    password: form.password,
+                    membership_tier: MEMBERSHIPS.find(m => m[1] === form.membership)?.[0] || "Member",
+                    aadhaar: form.aadhaar,
+                    address: form.address,
+                    state: form.state,
+                    district: form.district,
+                    pincode: form.pincode,
+                    blood_group: form.blood_group,
+                    profile_picture_url: data.profile_pic_url
+                  })
+                })
+              } catch (e) {
+                console.error("Auto-registration failed:", e)
+              }
+            }
+            
+            setSubmitted(true)
+          } else {
+            setError(data.message || "Failed to submit application.")
+          }
+        } catch (err) {
+          setError("Network error. Please try again later.")
+        } finally {
+          setLoading(false)
+        }
+      }
+    }
+
+    const paymentObject = new window.Razorpay(options)
+    paymentObject.on('payment.failed', function (response){
+      setError("Payment failed. " + response.error.description)
+      setLoading(false)
+    })
+    paymentObject.open()
+  }
   const downloadQr = () => {
     if (primaryBank && primaryBank.qr_code_url) {
       const link = document.createElement("a")
@@ -233,6 +279,23 @@ export default function Donate() {
                   <FIELD label="Working Area" required><input className={inputClass} value={form.working_area} onChange={setF("working_area")} placeholder="Village / Mandal / City" required /></FIELD>
                   <FIELD label="Pincode" required><input inputMode="numeric" maxLength={6} className={inputClass} value={form.pincode} onChange={setF("pincode")} placeholder="6-digit pincode" required /></FIELD>
                   <FIELD label="Full Address" required className="sm:col-span-2 lg:col-span-3"><textarea rows={3} className={`${inputClass} resize-y`} value={form.address} onChange={setF("address")} placeholder="House number, street, village/city, district" required /></FIELD>
+                  
+                  <div className="sm:col-span-2 lg:col-span-3 flex flex-col gap-3 rounded-2xl border border-[#04458F]/20 bg-[#eaf2fb] p-4">
+                    <label className="flex cursor-pointer items-start gap-3">
+                      <input type="checkbox" checked={form.requests_80g} onChange={(e) => setForm(p => ({ ...p, requests_80g: e.target.checked }))} className="mt-1 size-4 accent-[#04458F]" />
+                      <span>
+                        <span className="block text-sm font-bold text-[#061D49]">I need an 80G Tax Exemption Receipt</span>
+                        <span className="mt-0.5 block text-xs text-[#52627a]">An 80G receipt will be generated and emailed to you after successful payment.</span>
+                      </span>
+                    </label>
+                    {form.requests_80g && (
+                      <div className="mt-2 w-full max-w-sm">
+                        <FIELD label="PAN Card Number" required>
+                          <input className={inputClass} value={form.pan_number} onChange={setF("pan_number")} placeholder="10-digit PAN number" maxLength={10} required={form.requests_80g} style={{ textTransform: 'uppercase' }} />
+                        </FIELD>
+                      </div>
+                    )}
+                  </div>
 
                   <div className="sm:col-span-2 lg:col-span-3">
                     <div className="mb-3 flex items-center gap-2"><FileText className="size-4 text-[#196823]" /><h3 className="text-sm font-bold text-[#061D49]">Document Uploads</h3><span className="text-xs text-[#52627a]">JPG, PNG or PDF</span></div>
@@ -271,34 +334,6 @@ export default function Donate() {
                     </div>
 
                     <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#dce4ee] bg-[#f7fbff] p-3"><input type="checkbox" checked={form.recurring} onChange={(e) => setForm((p) => ({ ...p, recurring: e.target.checked }))} className="mt-0.5 size-4 accent-[#04458F]" /><span><span className="block text-xs font-bold text-[#061D49]">Annual recurring membership</span><span className="mt-0.5 block text-[10px] leading-5 text-[#52627a]">Enable annual renewal if supported by the selected payment method.</span></span></label>
-
-                    <div className="rounded-2xl border border-[#196823]/20 bg-[#eef7e9] p-4">
-                      <div className="flex items-center gap-2"><Landmark className="size-4 text-[#196823]" /><h3 className="text-sm font-bold text-[#061D49]">Bank Transfer Details</h3></div>
-                      <dl className="mt-3 space-y-2 text-xs">
-                        <div className="flex justify-between gap-3"><dt className="text-[#52627a]">Account Name</dt><dd className="font-semibold text-[#061D49]">{primaryBank?.account_name || "Sarv Abhyudaya Foundation"}</dd></div>
-                        <div className="flex justify-between gap-3"><dt className="text-[#52627a]">Bank Name</dt><dd className="font-semibold text-[#061D49]">{primaryBank?.bank_name || "State Bank of India"}</dd></div>
-                        <div className="flex justify-between gap-3"><dt className="text-[#52627a]">Account Number</dt><dd className="font-semibold text-[#061D49]">{primaryBank?.account_number || "To be configured"}</dd></div>
-                        <div className="flex justify-between gap-3"><dt className="text-[#52627a]">IFSC Code</dt><dd className="font-semibold text-[#061D49]">{primaryBank?.ifsc_code || "To be configured"}</dd></div>
-                        {primaryBank?.branch && <div className="flex justify-between gap-3"><dt className="text-[#52627a]">Branch</dt><dd className="font-semibold text-[#061D49]">{primaryBank.branch}</dd></div>}
-                      </dl>
-                    </div>
-
-                    <div className="rounded-2xl border border-[#dce4ee] bg-white p-4 text-center">
-                      <div className="mx-auto grid size-40 place-items-center rounded-2xl border-8 border-white bg-[#061D49] shadow-inner sm:size-44 overflow-hidden">
-                        {primaryBank?.qr_code_url ? (
-                           <img src={primaryBank.qr_code_url} alt="QR Code" className="size-full object-cover" />
-                        ) : (
-                           <QrCode className="size-28 text-white sm:size-32" />
-                        )}
-                      </div>
-                      <p className="mt-3 text-sm font-bold text-[#061D49]">UPI QR Code</p>
-                      <p className="mt-1 text-[10px] text-[#52627a]">{primaryBank?.qr_code_url ? "Scan the QR code to proceed with payment." : "Payment QR will be connected when the official UPI ID is provided."}</p>
-                      <button type="button" onClick={downloadQr} className="mt-3 inline-flex items-center gap-2 rounded-xl border border-[#04458F]/20 px-3 py-2 text-xs font-bold text-[#04458F] transition hover:bg-[#eaf2fb]"><Download className="size-3.5" />Download QR</button>
-                    </div>
-
-                    <div className="grid grid-cols-4 gap-2">
-                      {["PhonePe", "Google Pay", "Paytm", "BHIM"].map((name) => <button key={name} type="button" disabled className="rounded-xl border border-[#dce4ee] bg-white px-2 py-2 text-[9px] font-bold text-[#52627a] opacity-70"><Smartphone className="mx-auto mb-1 size-3.5 text-[#04458F]" />{name}</button>)}
-                    </div>
                   </div>
                 </div>
 

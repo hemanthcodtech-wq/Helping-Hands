@@ -23,11 +23,19 @@ const NAV_LINKS = [
 
 const LOGO_URL = "https://res.cloudinary.com/dwmjz9csc/image/upload/v1786889497/9ec8064b-61d9-4e70-897d-4790e9ea2cdf-removebg-preview_ogtw6d.png"
 const NEWS_ITEMS = ["Helping communities. Creating hope.", "Volunteer with Helping Hands and make an impact.", "Every contribution helps us reach another family in need."]
-const SOCIAL_LINKS = [{ label: "Facebook", type: "facebook" }, { label: "Instagram", type: "instagram" }, { label: "YouTube", type: "youtube" }]
+const SOCIAL_LINKS = [
+  { label: "Facebook", type: "facebook", href: "https://www.facebook.com/share/1BxmkxsXcT/" },
+  { label: "Instagram", type: "instagram", href: "https://www.instagram.com/helpinghandsfoundation892026?utm_source=qr&stkn=MTE5dnkxc3BsMDZsMw==" },
+  { label: "YouTube", type: "youtube", href: "https://youtube.com/@helpinghandsfoundation-1?si=j_bya8H4vzVguzMi" },
+  { label: "X (Twitter)", type: "twitter", href: "https://x.com/helphandfound" },
+  { label: "LinkedIn", type: "linkedin", href: "https://www.linkedin.com/in/helping-hands-foundation-91133642a?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
+]
 
 function SocialIcon({ type }) {
   if (type === "facebook") return <svg viewBox="0 0 24 24" className="size-3 sm:size-4" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.6 1.7-1.6h1.8V3.8c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H7.5v3h2.8v8h3.2Z" /></svg>
   if (type === "instagram") return <svg viewBox="0 0 24 24" className="size-3 sm:size-4" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
+  if (type === "twitter") return <svg viewBox="0 0 24 24" className="size-3 sm:size-4" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
+  if (type === "linkedin") return <svg viewBox="0 0 24 24" className="size-3 sm:size-4" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
   return <svg viewBox="0 0 24 24" className="size-3 sm:size-4" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1C4.5 20.5 12 20.5 12 20.5s7.5 0 9.4-.6a31 31 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.8V8.2l6.3 3.8-6.3 3.8Z" /></svg>
 }
 
@@ -85,7 +93,7 @@ export default function Header() {
 
   const s = globalSettings || {}
   const activeLogo = s.headerLogoUrl || LOGO_URL
-  const phonePrimary = s.contactPhonePrimary || "+91 9818398199"
+  const phonePrimary = s.contactPhonePrimary || "+91 7093426966"
 
   useEffect(() => { setMobileOpen(false); setMobileDropdown(null); setMobileNested(false) }, [pathname])
   useEffect(() => { const onScroll = () => setScrolled(window.scrollY > 12); window.addEventListener("scroll", onScroll, { passive: true }); return () => window.removeEventListener("scroll", onScroll) }, [])
@@ -96,7 +104,7 @@ export default function Header() {
     {/* Top information bar intentionally scrolls away. It is NOT an ancestor of the sticky header. */}
     <div className="relative z-[70] w-full max-w-full overflow-x-clip border-b border-[#04458F]/20 bg-white text-[#061D49]">
       <div className="flex min-h-10 w-full min-w-0 items-stretch sm:min-h-11">
-        <div className="flex shrink-0 items-center gap-2 bg-gradient-to-r from-[#196823] to-[#5E922C] px-2 text-white sm:gap-3 sm:px-5 lg:px-6">{SOCIAL_LINKS.map(({ label, type }) => <span key={label} title={label}><SocialIcon type={type} /></span>)}</div>
+        <div className="flex shrink-0 items-center gap-2 bg-gradient-to-r from-[#196823] to-[#5E922C] px-2 text-white sm:gap-3 sm:px-5 lg:px-6">{SOCIAL_LINKS.map(({ label, type, href }) => <a key={label} href={href} target="_blank" rel="noreferrer" title={label} className="transition hover:scale-110"><SocialIcon type={type} /></a>)}</div>
         <div className="flex min-w-0 flex-1 items-center overflow-hidden bg-white">
           <div className="flex h-full shrink-0 items-center gap-1 border-y border-[#04458F]/20 px-1.5 py-1 text-[9px] font-bold sm:gap-2 sm:px-2.5 sm:text-xs"><Zap className="size-3 shrink-0 text-[#EF9A0A]" /><span className="text-[#EF9A0A]">Latest</span></div>
           <div className="news-marquee-viewport min-w-0"><div className="news-marquee-track">{[...NEWS_ITEMS, ...NEWS_ITEMS].map((item, i) => <span key={`${item}-${i}`} className="inline-flex shrink-0 items-center text-[9px] text-[#061D49] sm:text-sm"><span>{item}</span><span className="mx-4 text-[#04458F] sm:mx-8">•</span></span>)}</div></div>

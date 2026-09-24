@@ -21,7 +21,7 @@ export default function CampaignDetail() {
 
   // Form State
   const [form, setForm] = useState({
-    name: "", email: "", phone: "", amount: "", pan: "", address: ""
+    name: "", email: "", phone: "", amount: "", pan_number: "", address: "", requests_80g: false
   })
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -76,7 +76,10 @@ export default function CampaignDetail() {
           formData.append("email", form.email)
           formData.append("phone", form.phone)
           formData.append("amount", form.amount)
-          formData.append("aadhaar", form.pan)
+          formData.append("requests_80g", form.requests_80g)
+          if (form.requests_80g) {
+            formData.append("pan_number", form.pan_number)
+          }
           formData.append("address", form.address)
           formData.append("campaign_id", id)
           formData.append("designation", "General Donation")
@@ -188,13 +191,24 @@ export default function CampaignDetail() {
                   <label className="mb-1.5 block text-xs font-bold text-primary">Phone Number *</label>
                   <input type="tel" required value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className={inputClass} placeholder="10-digit number" />
                 </div>
-                <div>
-                  <label className="mb-1.5 block text-xs font-bold text-primary">PAN Number (For 80G)</label>
-                  <input value={form.pan} onChange={e => setForm({...form, pan: e.target.value})} className={inputClass} placeholder="ABCDE1234F" />
-                </div>
                 <div className="sm:col-span-2">
                   <label className="mb-1.5 block text-xs font-bold text-primary">Complete Address *</label>
                   <textarea rows={2} required value={form.address} onChange={e => setForm({...form, address: e.target.value})} className={`${inputClass} resize-y`} placeholder="Full address for receipt" />
+                </div>
+                <div className="sm:col-span-2 flex flex-col gap-3 rounded-2xl border border-[#04458F]/20 bg-[#eaf2fb] p-4">
+                  <label className="flex cursor-pointer items-start gap-3">
+                    <input type="checkbox" checked={form.requests_80g} onChange={e => setForm({...form, requests_80g: e.target.checked})} className="mt-1 size-4 accent-[#04458F]" />
+                    <span>
+                      <span className="block text-sm font-bold text-[#061D49]">I need an 80G Tax Exemption Receipt</span>
+                      <span className="mt-0.5 block text-xs text-[#52627a]">An 80G receipt will be generated and emailed to you after successful payment.</span>
+                    </span>
+                  </label>
+                  {form.requests_80g && (
+                    <div className="mt-2 w-full sm:w-1/2">
+                      <label className="mb-1.5 block text-xs font-bold text-primary">PAN Number *</label>
+                      <input value={form.pan_number} onChange={e => setForm({...form, pan_number: e.target.value})} className={inputClass} placeholder="10-digit PAN number" maxLength={10} required={form.requests_80g} style={{ textTransform: 'uppercase' }} />
+                    </div>
+                  )}
                 </div>
               </div>
               

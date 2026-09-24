@@ -18,7 +18,24 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setSubmitted(true)
+    
+    const formData = new FormData(e.target)
+    const name = formData.get("name")
+    const email = formData.get("email")
+    const phone = formData.get("phone") || "Not provided"
+    const subject = formData.get("subject")
+    const message = formData.get("message")
+    
+    const text = `*New Contact Request*\n\n*Name:* ${name}\n*Email:* ${email}\n*Phone:* ${phone}\n*Subject:* ${subject}\n*Message:* ${message}`
+    const encodedText = encodeURIComponent(text)
+    
+    const defaultNumber = "917093426966" 
+    const numberRaw = s.contactPhonePrimary ? s.contactPhonePrimary.replace(/\D/g, "") : defaultNumber
+    
+    window.open(`https://wa.me/${numberRaw}?text=${encodedText}`, '_blank')
+    
     setTimeout(() => setSubmitted(false), 4000)
+    e.target.reset()
   }
 
   return (
@@ -79,19 +96,19 @@ export default function Contact() {
               <div className="mt-4 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4">
                 <div>
                   <label className="mb-1.5 block text-[8px] font-semibold text-muted-foreground sm:text-xs">Full Name</label>
-                  <input type="text" required placeholder="Your name" className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary placeholder:text-muted-foreground focus:border-teal focus:outline-none sm:rounded-2xl sm:py-3 sm:text-sm" />
+                  <input type="text" name="name" required placeholder="Your name" className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary placeholder:text-muted-foreground focus:border-teal focus:outline-none sm:rounded-2xl sm:py-3 sm:text-sm" />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-[8px] font-semibold text-muted-foreground sm:text-xs">Email</label>
-                  <input type="email" required placeholder="your@email.com" className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary placeholder:text-muted-foreground focus:border-teal focus:outline-none sm:rounded-2xl sm:py-3 sm:text-sm" />
+                  <input type="email" name="email" required placeholder="your@email.com" className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary placeholder:text-muted-foreground focus:border-teal focus:outline-none sm:rounded-2xl sm:py-3 sm:text-sm" />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-[8px] font-semibold text-muted-foreground sm:text-xs">Phone (optional)</label>
-                  <input type="tel" placeholder="+91 00000 00000" className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary placeholder:text-muted-foreground focus:border-teal focus:outline-none sm:rounded-2xl sm:py-3 sm:text-sm" />
+                  <input type="tel" name="phone" placeholder="+91 00000 00000" className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary placeholder:text-muted-foreground focus:border-teal focus:outline-none sm:rounded-2xl sm:py-3 sm:text-sm" />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-[8px] font-semibold text-muted-foreground sm:text-xs">Subject</label>
-                  <select className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary focus:border-teal focus:outline-none sm:rounded-2xl sm:py-3 sm:text-sm">
+                  <select name="subject" className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary focus:border-teal focus:outline-none sm:rounded-2xl sm:py-3 sm:text-sm">
                     <option>General Inquiry</option>
                     <option>Donation</option>
                     <option>Volunteering</option>
@@ -101,7 +118,7 @@ export default function Contact() {
                 </div>
                 <div className="sm:col-span-2">
                   <label className="mb-1.5 block text-[8px] font-semibold text-muted-foreground sm:text-xs">Message</label>
-                  <textarea rows={4} required placeholder="How can we help you?" className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary placeholder:text-muted-foreground focus:border-teal focus:outline-none sm:rounded-2xl sm:text-sm" />
+                  <textarea name="message" rows={4} required placeholder="How can we help you?" className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-[10px] text-primary placeholder:text-muted-foreground focus:border-teal focus:outline-none sm:rounded-2xl sm:text-sm" />
                 </div>
               </div>
               <button

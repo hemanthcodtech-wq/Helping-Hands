@@ -23,7 +23,7 @@ function MobileColumn({ title, links }) {
 export default function Footer() {
   const { globalSettings, bankAccounts } = useApp()
   const s = globalSettings || {}
-  const phonePrimary = s.contactPhonePrimary || "+91 98765 43210"
+  const phonePrimary = s.contactPhonePrimary || "+91 7093426966"
   const emailPrimary = s.contactEmail || "help@helpinghands.org"
   const address = s.contactFullAddress || "Main Road, Tirupati, Andhra Pradesh – 517501"
   const workingHours = s.contactWorkingHours || "Mon – Sat: 10:00 – 18:00"
@@ -57,7 +57,7 @@ export default function Footer() {
 }
 
 function FloatingActions({ s }) {
-  const phonePrimary = s?.contactPhonePrimary || "+919876543210"
+  const phonePrimary = s?.contactPhonePrimary || "+91 7093426966"
   const waLink = `https://wa.me/${phonePrimary.replace(/[^\d]/g, '')}`
 
   return <>
