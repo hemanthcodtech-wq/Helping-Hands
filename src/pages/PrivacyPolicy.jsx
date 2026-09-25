@@ -48,9 +48,11 @@ export default function PrivacyPolicy() {
           <p>If you have any questions about this Privacy Policy, the practices of this site, or your dealings with this site, please contact us at:</p>
           <p>
             <strong>Helping Hands Foundation</strong><br />
-            H.No: 4-187/4, Ambabhavani Pet, Gowli Pet, Adoni – 518301, Kurnool District, A.P.<br />
+            <strong>Head office:</strong> H.No: 4/211/2, SHAKTHI GUDI, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P.<br />
+            <strong>Working present:</strong> H.No: 4-187/4, AMBABHAVANI PET, GOWLI PET, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P.<br />
             Email: helpinghandsffoundation@gmail.com<br />
-            Phone: +91 77993 73766
+            Phone: +91 77993 73766<br />
+            WhatsApp: +91 70934 26966
           </p>
         </div>
       </section>

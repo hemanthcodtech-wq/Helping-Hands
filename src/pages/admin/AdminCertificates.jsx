@@ -341,8 +341,9 @@ export default function AdminCertificates() {
                     <img src={activeLogo} crossOrigin="anonymous" alt="Logo" className="w-16 h-16 object-contain" />
                     <div>
                       <h1 className="text-2xl font-extrabold text-[#087884] uppercase tracking-widest">{siteTitle}</h1>
-                      <p className="text-xs font-bold" style={{ color: "#6b7280" }}>{s.contactFullAddress || "H.No: 4-187/4, Ambabhavani Pet, Gowli Pet, Adoni – 518301, Kurnool District, A.P."}</p>
-                      <p className="text-xs font-bold" style={{ color: "#6b7280" }}>{s.contactEmail || "helpinghandsffoundation@gmail.com"} | {s.contactPhonePrimary || "+91 77993 73766"}</p>
+                      <p className="text-[10px] font-bold" style={{ color: "#6b7280" }}>Head office: H.No: 4/211/2, SHAKTHI GUDI, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P.</p>
+                      <p className="text-[10px] font-bold" style={{ color: "#6b7280" }}>Working present: H.No: 4-187/4, AMBABHAVANI PET, GOWLI PET, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P.</p>
+                      <p className="text-[10px] font-bold" style={{ color: "#6b7280" }}>{s.contactEmail || "helpinghandsffoundation@gmail.com"} | +91 77993 73766 | WhatsApp: +91 70934 26966</p>
                     </div>
                   </div>
                 </div>

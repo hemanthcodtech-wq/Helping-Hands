@@ -93,7 +93,7 @@ export default function Header() {
 
   const s = globalSettings || {}
   const activeLogo = s.headerLogoUrl || LOGO_URL
-  const phonePrimary = s.contactPhonePrimary || "+91 7093426966"
+  const phonePrimary = s.contactPhonePrimary || "+91 77993 73766"
 
   useEffect(() => { setMobileOpen(false); setMobileDropdown(null); setMobileNested(false) }, [pathname])
   useEffect(() => { const onScroll = () => setScrolled(window.scrollY > 12); window.addEventListener("scroll", onScroll, { passive: true }); return () => window.removeEventListener("scroll", onScroll) }, [])

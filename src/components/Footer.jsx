@@ -23,9 +23,11 @@ function MobileColumn({ title, links }) {
 export default function Footer() {
   const { globalSettings, bankAccounts } = useApp()
   const s = globalSettings || {}
-  const phonePrimary = s.contactPhonePrimary || "+91 7093426966"
-  const emailPrimary = s.contactEmail || "help@helpinghands.org"
-  const address = s.contactFullAddress || "Main Road, Tirupati, Andhra Pradesh – 517501"
+  const phonePrimary = s.contactPhonePrimary || "+91 77993 73766"
+  const phoneWhatsApp = "+91 70934 26966"
+  const emailPrimary = s.contactEmail || "helpinghandsffoundation@gmail.com"
+  const addressHead = "H.No: 4/211/2, SHAKTHI GUDI, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P."
+  const addressPresent = s.contactFullAddress || "H.No: 4-187/4, AMBABHAVANI PET, GOWLI PET, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P."
   const workingHours = s.contactWorkingHours || "Mon – Sat: 10:00 – 18:00"
   const siteTitle = s.siteTitle || "Helping Hands Foundation"
 
@@ -38,7 +40,7 @@ export default function Footer() {
         <div className="lg:hidden">{COLUMNS.map(column => <MobileColumn key={column.title} {...column} />)}</div>
       </div>
       <div className="border-t border-white/15"><div className="mx-auto grid max-w-[1600px] gap-8 px-5 py-8 sm:px-10 lg:grid-cols-[1.05fr_1.45fr_.65fr] lg:gap-12 lg:px-16 lg:py-10">
-        <div><h3 className="text-base font-extrabold sm:text-lg">{siteTitle}</h3><p className="mt-3 text-xs leading-6 text-white/75 sm:text-sm">{s.metaDescription || "Helping communities through education, healthcare, food support and empowerment."}</p><p className="mt-3 text-xs leading-6 text-white/75 sm:text-sm">Address: {address}</p><p className="mt-1 text-xs leading-6 text-white/75 sm:text-sm">Phone: {phonePrimary}</p><p className="mt-1 text-xs leading-6 text-white/75 sm:text-sm">Email: {emailPrimary}</p><p className="mt-2 text-xs text-white/75 sm:text-sm">{workingHours}</p></div>
+        <div><h3 className="text-base font-extrabold sm:text-lg">{siteTitle}</h3><p className="mt-3 text-xs leading-6 text-white/75 sm:text-sm">{s.metaDescription || "Helping communities through education, healthcare, food support and empowerment."}</p><p className="mt-3 text-xs leading-6 text-white/75 sm:text-sm">Head Office: {addressHead}</p><p className="mt-1 text-xs leading-6 text-white/75 sm:text-sm">Working Present: {addressPresent}</p><p className="mt-1 text-xs leading-6 text-white/75 sm:text-sm">Calling: {phonePrimary}</p><p className="mt-1 text-xs leading-6 text-white/75 sm:text-sm">WhatsApp: {phoneWhatsApp}</p><p className="mt-1 text-xs leading-6 text-white/75 sm:text-sm">Email: {emailPrimary}</p><p className="mt-2 text-xs text-white/75 sm:text-sm">{workingHours}</p></div>
         <div className="flex items-start"><p className="max-w-[650px] text-sm leading-7 text-white/75 sm:text-base">Helping Hands Foundation works with communities to create lasting opportunities for children, women, families and vulnerable groups across India.</p></div>
         <div className="lg:justify-self-end"><p className="flex items-center gap-2 text-sm font-extrabold">▦ Scan to Support Us</p>
           {primaryBank && primaryBank.qr_code_url ? (
@@ -57,8 +59,8 @@ export default function Footer() {
 }
 
 function FloatingActions({ s }) {
-  const phonePrimary = s?.contactPhonePrimary || "+91 7093426966"
-  const waLink = `https://wa.me/${phonePrimary.replace(/[^\d]/g, '')}`
+  const phoneWhatsApp = "+91 70934 26966"
+  const waLink = `https://wa.me/${phoneWhatsApp.replace(/[^\d]/g, '')}`
 
   return <>
     <a href={waLink} target="_blank" rel="noreferrer" className="fixed bottom-4 right-4 z-[180] grid size-14 place-items-center rounded-full bg-[#00d96b] text-white shadow-[0_10px_30px_rgba(0,0,0,.28)] transition hover:scale-105 lg:hidden" aria-label="WhatsApp support"><MessageCircle className="size-7" /></a>

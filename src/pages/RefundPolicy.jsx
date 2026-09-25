@@ -21,7 +21,7 @@ export default function RefundPolicy() {
 
           <h2>2. Requesting a Refund</h2>
           <p>Refund requests must be submitted within <strong>15 days</strong> of the donation date. We will examine each request on a case-by-case basis and endeavor to make the refund process as seamless as possible.</p>
-          <p>To request a refund, please send an email to <strong>refunds@helpinghands.org</strong> with the following details:</p>
+          <p>To request a refund, please send an email to <strong>helpinghandsffoundation@gmail.com</strong> with the following details:</p>
           <ul>
             <li>Your full name (as it appears on your bank/payment method)</li>
             <li>Donation amount</li>
@@ -43,7 +43,7 @@ export default function RefundPolicy() {
           </ul>
 
           <h2>5. Contact Us</h2>
-          <p>If you have any further queries regarding our refund policy, please do not hesitate to reach out to us at <strong>help@helpinghands.org</strong> or call us at <strong>+91 98765 43210</strong>.</p>
+          <p>If you have any further queries regarding our refund policy, please do not hesitate to reach out to us at <strong>helpinghandsffoundation@gmail.com</strong> or call us at <strong>+91 77993 73766</strong>.</p>
         </div>
       </section>
     </main>

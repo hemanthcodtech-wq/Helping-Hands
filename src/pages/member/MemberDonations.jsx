@@ -11,7 +11,7 @@ export default function MemberDonations() {
     const doc = new jsPDF()
     const s = globalSettings || {}
     const ngoName = s.ngoName || "Helping Hands Foundation"
-    const ngoAddress = s.contactFullAddress || "Tirupati, Andhra Pradesh"
+    const ngoAddress = s.contactFullAddress || "H.No: 4/211/2, SHAKTHI GUDI, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P."
     
     // Header
     doc.setFontSize(22)
