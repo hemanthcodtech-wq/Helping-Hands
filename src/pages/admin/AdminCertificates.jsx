@@ -250,80 +250,82 @@ export default function AdminCertificates() {
                 id="certificate-download-target"
                 ref={certificateRef}
                 className="relative flex flex-col items-center justify-center overflow-hidden"
-                style={{ width: "1123px", height: "794px", padding: "40px", backgroundColor: "#ffffff", fontFamily: "'Poppins', sans-serif" }} // A4 Landscape at 96 DPI
+                style={{ width: "1123px", height: "794px", padding: "60px", backgroundColor: "#fdfcf0", backgroundImage: "radial-gradient(#e5e7eb 1px, transparent 1px)", backgroundSize: "30px 30px", fontFamily: "'Poppins', sans-serif" }} // A4 Landscape at 96 DPI
               >
                 {/* Decorative Borders */}
-                <div className="absolute inset-[20px] border-[12px] border-[#087884]"></div>
-                <div className="absolute inset-[36px] border-[2px] border-[#EF9A0A]"></div>
+                <div className="absolute inset-[24px] border-[16px] border-[#0A2540] shadow-inner"></div>
+                <div className="absolute inset-[44px] border-[4px] border-[#D4AF37]"></div>
                 
                 {/* Background Pattern/Logo Watermark */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
-                  <div className="w-[400px] h-[400px] rounded-full border-[40px] border-[#087884]"></div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none z-0">
+                  <div className="w-[500px] h-[500px] rounded-full border-[60px] border-[#D4AF37]"></div>
                 </div>
 
-                <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[800px] h-full py-6">
-                  {/* Reference Number */}
-                  <div style={{ position: "absolute", top: "20px", right: "20px", textAlign: "right" }}>
-                    <p style={{ fontSize: "10px", fontWeight: "bold", color: "#6b7280", letterSpacing: "1px" }}>CERTIFICATE NO.</p>
-                    <p style={{ fontSize: "14px", fontWeight: "bold", color: "#1f2937" }}>HHF-{form.date ? form.date.substring(0,4) : new Date().getFullYear()}-0001</p>
-                  </div>
+                {/* Reference Number */}
+                <div className="absolute z-20" style={{ top: "60px", right: "60px", textAlign: "right" }}>
+                  <p style={{ fontSize: "10px", fontWeight: "bold", color: "#6b7280", letterSpacing: "1px" }}>CERTIFICATE NO.</p>
+                  <p style={{ fontSize: "14px", fontWeight: "bold", color: "#1f2937" }}>HHF-{form.date ? form.date.substring(0,4) : new Date().getFullYear()}-0001</p>
+                </div>
+
+                {/* Centered Content */}
+                <div className="relative z-10 flex flex-col items-center text-center w-full max-w-[800px]">
 
                   {/* Header */}
-                  <div className="flex items-center justify-center mb-6">
-                    <img src={activeLogo} crossOrigin="anonymous" alt="Logo" className="h-24 object-contain" />
+                  <div className="flex items-center justify-center mb-4">
+                    <img src={activeLogo} crossOrigin="anonymous" alt="Logo" className="h-20 object-contain" />
                   </div>
 
-                  <h2 className="text-5xl italic mb-6" style={{ color: "#1f2937", fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{selectedType.title}</h2>
+                  <h2 className="text-5xl italic mb-4" style={{ color: "#1f2937", fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>{selectedType.title}</h2>
                   
-                  <p className="text-lg mb-4 font-medium uppercase tracking-widest" style={{ color: "#4b5563" }}>This is proudly presented to</p>
+                  <p className="text-lg mb-2 font-medium uppercase tracking-widest" style={{ color: "#4b5563" }}>This is proudly presented to</p>
                   
-                  <div className="mb-6" style={{ textAlign: "center" }}>
-                    <h3 className="text-5xl font-bold text-[#087884] pb-2 px-10 inline-block">
+                  <div className="mb-4" style={{ textAlign: "center" }}>
+                    <h3 className="text-6xl font-extrabold pb-2 px-10 inline-block" style={{ color: "#0A2540", textShadow: "1px 1px 2px rgba(0,0,0,0.1)" }}>
                       {form.recipientName || "[Recipient Name]"}
                     </h3>
                     <div style={{ display: "inline-block", width: "100%", maxWidth: "500px", height: "2px", backgroundColor: "#d1d5db" }}></div>
                   </div>
 
-                  <p className="text-xl leading-relaxed mb-4 max-w-[700px]" style={{ color: "#374151" }}>
+                  <p className="text-xl leading-relaxed mb-3 max-w-[700px]" style={{ color: "#374151" }}>
                     {form.description}
                   </p>
 
-                  <p className="text-[14px] italic mb-6 max-w-[600px]" style={{ color: "#4b5563", fontFamily: "'Playfair Display', serif" }}>
+                  <p className="text-[14px] italic mb-3 max-w-[600px]" style={{ color: "#4b5563", fontFamily: "'Playfair Display', serif" }}>
                     In witness whereof, we have hereunto set our hands and the official seal of the {siteTitle} on this day.
                   </p>
 
-                  <p className="text-lg font-bold text-[#EF9A0A] mb-8 uppercase tracking-wider">
+                  <p className="text-xl font-bold mb-0 uppercase tracking-widest" style={{ color: "#D4AF37" }}>
                     {form.roleOrEvent}
                   </p>
+                </div>
 
-                  {/* Signatures & Date */}
-                  <div className="flex justify-between w-full px-16 mt-auto">
-                    <div style={{ width: "192px", margin: "0 auto" }}>
-                      <div className="text-lg font-bold pb-1 w-full" style={{ color: "#1f2937", textAlign: "center" }}>
-                        {form.date ? new Date(form.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : "[Date]"}
-                      </div>
-                      <div style={{ display: "inline-block", width: "100%", height: "1px", backgroundColor: "#1f2937", marginBottom: "8px" }}></div>
-                      <div style={{ textAlign: "center" }}>
-                        <span className="text-sm uppercase tracking-wider font-bold" style={{ color: "#6b7280" }}>Date</span>
-                      </div>
+                {/* Signatures & Date - Positioned absolutely to canvas */}
+                <div className="absolute z-20 left-0 right-0 flex justify-between w-full px-[80px]" style={{ bottom: "56px" }}>
+                  <div style={{ width: "192px", margin: "0 auto" }}>
+                    <div className="text-lg font-bold pb-1 w-full" style={{ color: "#1f2937", textAlign: "center" }}>
+                      {form.date ? new Date(form.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : "[Date]"}
                     </div>
+                    <div style={{ display: "inline-block", width: "100%", height: "1px", backgroundColor: "#1f2937", marginBottom: "5px" }}></div>
+                    <div style={{ textAlign: "center" }}>
+                      <span className="text-sm uppercase tracking-wider font-bold" style={{ color: "#6b7280" }}>Date</span>
+                    </div>
+                  </div>
 
-                    {/* Official Seal */}
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end" }}>
-                      <div style={{ width: "64px", height: "64px", borderRadius: "50%", border: "3px solid #EF9A0A", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#fffcf2" }}>
-                        <Award size={32} color="#EF9A0A" strokeWidth={1.5} />
-                      </div>
-                      <span style={{ fontSize: "9px", fontWeight: "bold", color: "#EF9A0A", marginTop: "6px", letterSpacing: "1px" }}>OFFICIAL SEAL</span>
+                  {/* Official Seal */}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end" }}>
+                    <div style={{ width: "72px", height: "72px", borderRadius: "50%", border: "4px solid #D4AF37", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#fffcf2", boxShadow: "0 4px 6px rgba(0,0,0,0.05)" }}>
+                      <Award size={36} color="#D4AF37" strokeWidth={1.5} />
                     </div>
-                    
-                    <div style={{ width: "192px", margin: "0 auto" }}>
-                      <div style={{ height: "40px", paddingTop: "8px", paddingBottom: "4px", width: "full", textAlign: "center" }}>
-                        <span className="text-4xl" style={{ color: "#1f2937", fontFamily: "'Dancing Script', cursive", fontWeight: 700 }}>{s.authorizedSignatoryName ? s.authorizedSignatoryName.charAt(0) + "..." : "H.H.F."}</span>
-                      </div>
-                      <div style={{ display: "inline-block", width: "100%", height: "1px", backgroundColor: "#1f2937", marginBottom: "8px" }}></div>
-                      <div style={{ textAlign: "center" }}>
-                        <span className="text-sm uppercase tracking-wider font-bold" style={{ color: "#6b7280" }}>{s.authorizedSignatoryTitle || "Authorized Signatory"}</span>
-                      </div>
+                    <span style={{ fontSize: "10px", fontWeight: "bold", color: "#D4AF37", marginTop: "8px", letterSpacing: "2px" }}>OFFICIAL SEAL</span>
+                  </div>
+                  
+                  <div style={{ width: "192px", margin: "0 auto" }}>
+                    <div style={{ height: "40px", paddingTop: "8px", paddingBottom: "4px", width: "full", textAlign: "center" }}>
+                      <span className="text-4xl" style={{ color: "#1f2937", fontFamily: "'Dancing Script', cursive", fontWeight: 700 }}>{s.authorizedSignatoryName ? s.authorizedSignatoryName.charAt(0) + "..." : "H.H.F."}</span>
+                    </div>
+                    <div style={{ display: "inline-block", width: "100%", height: "1px", backgroundColor: "#1f2937", marginBottom: "8px" }}></div>
+                    <div style={{ textAlign: "center" }}>
+                      <span className="text-sm uppercase tracking-wider font-bold" style={{ color: "#6b7280" }}>{s.authorizedSignatoryTitle || "Authorized Signatory"}</span>
                     </div>
                   </div>
                 </div>

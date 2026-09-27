@@ -77,6 +77,7 @@ function LoginDropdown({ onNavigate }) {
       <div className="rounded-2xl border border-border bg-white p-2 shadow-xl">
         <NavLink to="/member/login" onClick={() => { setOpen(false); onNavigate?.() }} className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-primary hover:bg-primary-soft">Member Login</NavLink>
         <NavLink to="/volunteer/login" onClick={() => { setOpen(false); onNavigate?.() }} className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-primary hover:bg-primary-soft">Volunteer Login</NavLink>
+        <NavLink to="/coordinator/login" onClick={() => { setOpen(false); onNavigate?.() }} className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-primary hover:bg-primary-soft">Coordinator Login</NavLink>
         <NavLink to="/admin/login" onClick={() => { setOpen(false); onNavigate?.() }} className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-primary hover:bg-primary-soft">Admin Login</NavLink>
       </div>
     </div>

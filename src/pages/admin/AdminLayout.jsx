@@ -7,6 +7,11 @@ import { useApp } from "../../context/AppContext"
 const NAV = [
   { to: "/admin", icon: LayoutDashboard, label: "Dashboard", end: true },
   { to: "/admin/donors", icon: HeartHandshake, label: "Donors" },
+  { to: "/admin/coordinators", icon: Users, label: "Coordinators" },
+  { to: "/admin/coordinator-collections", icon: Landmark, label: "Coord Collections" },
+  { to: "/admin/coordinator-donors", icon: HeartHandshake, label: "Coord Donors" },
+  { to: "/admin/coordinator-certificates", icon: Award, label: "Coord Certificates" },
+  { to: "/admin/coordinator-id-cards", icon: IdCard, label: "Coord ID Cards" },
   { to: "/admin/members", icon: Users, label: "Members" },
   { to: "/admin/volunteers", icon: UserPlus, label: "Volunteers" },
   { to: "/admin/volunteer-requests", icon: FileBadge, label: "Requests" },

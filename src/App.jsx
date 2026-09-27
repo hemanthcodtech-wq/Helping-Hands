@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { Routes, Route, useLocation } from "react-router-dom"
+import { Toaster } from "react-hot-toast"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Home from "./pages/Home"
@@ -44,6 +45,11 @@ import AdminTestimonials from "./pages/admin/AdminTestimonials"
 import AdminSettings from "./pages/admin/AdminSettings"
 import AdminBankAccounts from "./pages/admin/AdminBankAccounts"
 import AdminMembers from "./pages/admin/AdminMembers"
+import AdminCoordinators from "./pages/admin/AdminCoordinators"
+import AdminCoordinatorCollections from "./pages/admin/AdminCoordinatorCollections"
+import AdminCoordinatorDonors from "./pages/admin/AdminCoordinatorDonors"
+import AdminCoordinatorCertificates from "./pages/admin/AdminCoordinatorCertificates"
+import AdminCoordinatorIDCards from "./pages/admin/AdminCoordinatorIDCards"
 import VolunteerLogin from "./pages/volunteer/VolunteerLogin"
 import VolunteerRegister from "./pages/volunteer/VolunteerRegister"
 import VolunteerUpdates from "./pages/volunteer/VolunteerUpdates"
@@ -59,6 +65,14 @@ import VolunteerCampaigns from "./pages/volunteer/VolunteerCampaigns"
 import VolunteerPrograms from "./pages/volunteer/VolunteerPrograms"
 import VolunteerIDCard from "./pages/volunteer/VolunteerIDCard"
 import VolunteerCertificates from "./pages/volunteer/VolunteerCertificates"
+import CoordinatorLogin from "./pages/coordinator/CoordinatorLogin"
+import CoordinatorLayout from "./pages/coordinator/CoordinatorLayout"
+import CoordinatorDashboard from "./pages/coordinator/CoordinatorDashboard"
+import CoordinatorSupport from "./pages/coordinator/CoordinatorSupport"
+import CoordinatorIDCard from "./pages/coordinator/CoordinatorIDCard"
+import CoordinatorCollections from "./pages/coordinator/CoordinatorCollections"
+import CoordinatorDonors from "./pages/coordinator/CoordinatorDonors"
+import CoordinatorCertificates from "./pages/coordinator/CoordinatorCertificates"
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -77,6 +91,11 @@ export default function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="donors" element={<AdminDonors />} />
+          <Route path="coordinators" element={<AdminCoordinators />} />
+          <Route path="coordinator-collections" element={<AdminCoordinatorCollections />} />
+          <Route path="coordinator-donors" element={<AdminCoordinatorDonors />} />
+          <Route path="coordinator-certificates" element={<AdminCoordinatorCertificates />} />
+          <Route path="coordinator-id-cards" element={<AdminCoordinatorIDCards />} />
           <Route path="members" element={<AdminMembers />} />
           <Route path="volunteers" element={<AdminVolunteers />} />
           <Route path="volunteer-requests" element={<AdminVolunteerRequests />} />
@@ -109,6 +128,15 @@ export default function App() {
           <Route path="id-card" element={<VolunteerIDCard />} />
           <Route path="certificates" element={<VolunteerCertificates />} />
         </Route>
+        <Route path="/coordinator/login" element={<CoordinatorLogin />} />
+        <Route path="/coordinator-portal" element={<CoordinatorLayout />}>
+          <Route index element={<CoordinatorDashboard />} />
+          <Route path="collections" element={<CoordinatorCollections />} />
+          <Route path="donors" element={<CoordinatorDonors />} />
+          <Route path="support" element={<CoordinatorSupport />} />
+          <Route path="id-card" element={<CoordinatorIDCard />} />
+          <Route path="certificates" element={<CoordinatorCertificates />} />
+        </Route>
         <Route path="/*" element={<><Header /><Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -140,6 +168,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes><Footer /></>} />
       </Routes>
+      <Toaster position="top-right" />
     </div>
   )
 }
