@@ -24,11 +24,11 @@ export default function Footer() {
   const { globalSettings, bankAccounts } = useApp()
   const s = globalSettings || {}
   const phonePrimary = s.contactPhonePrimary || "+91 77993 73766"
-  const phoneWhatsApp = "+91 70934 26966"
+  const phoneWhatsApp = s.contactPhoneSecondary || "+91 70934 26966"
   const emailPrimary = s.contactEmail || "helpinghandsffoundation@gmail.com"
-  const addressHead = "H.No: 4/211/2, SHAKTHI GUDI, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P."
-  const addressPresent = s.contactFullAddress || "H.No: 4-187/4, AMBABHAVANI PET, GOWLI PET, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P."
-  const workingHours = s.contactWorkingHours || "Mon – Sat: 10:00 – 18:00"
+  const addressHead = s.contactHeadOffice || "H.No: 4/211/2, SHAKTHI GUDI, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P."
+  const addressPresent = s.contactWorkingPresent || "H.No: 4-187/4, AMBABHAVANI PET, GOWLI PET, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P."
+  const workingHours = s.contactWorkingHours || "Mon - Sat: 10:00 - 18:00"
   const siteTitle = s.siteTitle || "Helping Hands Foundation"
 
   const primaryBank = (bankAccounts || []).find(b => b.is_active) || null

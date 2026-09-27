@@ -10,10 +10,10 @@ export default function Contact() {
   const s = globalSettings || {}
 
   const CONTACT_INFO = [
-    { icon: MapPin, label: "Head Office", value: "H.No: 4/211/2, SHAKTHI GUDI, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P." },
-    { icon: MapPin, label: "Working Present", value: s.contactFullAddress || "H.No: 4-187/4, AMBABHAVANI PET, GOWLI PET, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P." },
+    { icon: MapPin, label: "Head Office", value: s.contactHeadOffice || "H.No: 4/211/2, SHAKTHI GUDI, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P." },
+    { icon: MapPin, label: "Working Present", value: s.contactWorkingPresent || "H.No: 4-187/4, AMBABHAVANI PET, GOWLI PET, ADONI 518301, ADONI MANDAL, KURNOOL DISTRICT, A.P." },
     { icon: Phone, label: "Phone (Calling)", value: s.contactPhonePrimary || "+91 77993 73766" },
-    { icon: Phone, label: "WhatsApp", value: "+91 70934 26966" },
+    { icon: Phone, label: "WhatsApp", value: s.contactPhoneSecondary || "+91 70934 26966" },
     { icon: Mail, label: "Email", value: s.contactEmail || "helpinghandsffoundation@gmail.com" },
   ]
 
