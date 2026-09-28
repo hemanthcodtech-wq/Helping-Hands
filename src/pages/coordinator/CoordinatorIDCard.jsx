@@ -16,7 +16,7 @@ export default function CoordinatorIDCard() {
       const parsed = JSON.parse(data)
       setCoord(parsed)
       // Silently fetch latest to get new fields like blood_group if missing
-      fetch(`http://localhost:5000/api/coordinators/${parsed.id}`)
+      fetch(`https://helpinghandsbe.vercel.app/api/coordinators/${parsed.id}`)
         .then(res => res.json())
         .then(d => {
           if (d.success) {

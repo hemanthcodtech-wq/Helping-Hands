@@ -14,7 +14,7 @@ export default function CoordinatorLogin() {
     e.preventDefault()
     setLoading(true)
     try {
-      const res = await fetch("http://localhost:5000/api/coordinators/login", {
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/coordinators/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password })

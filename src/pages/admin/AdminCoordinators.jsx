@@ -15,7 +15,7 @@ export default function AdminCoordinators() {
 
   const fetchCoordinators = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/coordinators")
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/coordinators")
       const data = await res.json()
       if (data.success) setCoordinators(data.coordinators)
     } catch (err) {
@@ -43,7 +43,7 @@ export default function AdminCoordinators() {
       if (fileInputs[1]?.files[0]) formPayload.append('aadhaar_front', fileInputs[1].files[0])
       if (fileInputs[2]?.files[0]) formPayload.append('aadhaar_back', fileInputs[2].files[0])
 
-      const res = await fetch("http://localhost:5000/api/coordinators", {
+      const res = await fetch("https://helpinghandsbe.vercel.app/api/coordinators", {
         method: "POST",
         body: formPayload,
       })

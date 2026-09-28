@@ -21,7 +21,7 @@ export default function CoordinatorCollections() {
 
   const fetchCollections = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/coordinators/${id}/collections`)
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/coordinators/${id}/collections`)
       const data = await res.json()
       if (data.success) {
         setCollections(data.collections)
@@ -45,7 +45,7 @@ export default function CoordinatorCollections() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/coordinators/${coordId}/collections`, {
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/coordinators/${coordId}/collections`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)

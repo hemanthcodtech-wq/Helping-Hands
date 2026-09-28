@@ -9,7 +9,7 @@ export default function AdminCoordinatorDonors() {
   const [expandedRow, setExpandedRow] = useState(null)
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/coordinators/donors")
+    fetch("https://helpinghandsbe.vercel.app/api/coordinators/donors")
       .then(res => res.json())
       .then(data => { 
         if(data.success) {

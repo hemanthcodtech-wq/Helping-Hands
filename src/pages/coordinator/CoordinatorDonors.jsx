@@ -21,7 +21,7 @@ export default function CoordinatorDonors() {
 
   const fetchDonors = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/coordinators/${id}/donors`)
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/coordinators/${id}/donors`)
       const data = await res.json()
       if (data.success) {
         setDonors(data.donors)
@@ -43,7 +43,7 @@ export default function CoordinatorDonors() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/coordinators/${coordId}/donors`, {
+      const res = await fetch(`https://helpinghandsbe.vercel.app/api/coordinators/${coordId}/donors`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)

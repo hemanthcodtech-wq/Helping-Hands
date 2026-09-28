@@ -19,7 +19,7 @@ export default function AdminCoordinatorCertificates() {
   const siteTitle = s.siteTitle || "Helping Hands Foundation"
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/coordinators")
+    fetch("https://helpinghandsbe.vercel.app/api/coordinators")
       .then(res => res.json())
       .then(data => { if(data.success) setCoordinators(data.coordinators) })
       .catch(console.error)
