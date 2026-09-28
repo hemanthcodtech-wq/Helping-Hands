@@ -9,7 +9,7 @@ export default function AdminCampaigns() {
   const [editingId, setEditingId] = useState(null)
   
   // Form State
-  const [form, setForm] = useState({ name: "", text: "", raised: 0, goal: "", image: "" })
+  const [form, setForm] = useState({ name: "", text: "", target_amount: "", image: "" })
   const [imageFile, setImageFile] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
@@ -34,14 +34,14 @@ export default function AdminCampaigns() {
 
   const handleEdit = (c) => {
     setEditingId(c.id)
-    setForm({ name: c.name, text: c.text, raised: c.raised, goal: c.goal, image: c.image })
+    setForm({ name: c.name, text: c.text, target_amount: c.target_amount || "", image: c.image || "" })
     setImageFile(null)
     setError("")
   }
 
   const handleCancel = () => {
     setEditingId(null)
-    setForm({ name: "", text: "", raised: 0, goal: "", image: "" })
+    setForm({ name: "", text: "", target_amount: "", image: "" })
     setImageFile(null)
     setError("")
   }
@@ -66,9 +66,8 @@ export default function AdminCampaigns() {
       const formData = new FormData()
       formData.append("name", form.name)
       formData.append("text", form.text)
-      formData.append("raised", form.raised)
-      formData.append("goal", form.goal)
-      if (form.image) formData.append("image", form.image)
+      formData.append("target_amount", form.target_amount)
+      if (form.image && !imageFile) formData.append("image", form.image)
       if (imageFile) formData.append("image", imageFile) // file overrides url
 
       const url = editingId ? `https://helpinghandsbe.vercel.app/api/campaigns/${editingId}` : `https://helpinghandsbe.vercel.app/api/campaigns`
@@ -126,15 +125,17 @@ export default function AdminCampaigns() {
                 <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})} className={inputCls} placeholder="e.g. Every Child Deserves Education" />
               </div>
               
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className={labelCls}>Raised (%) *</label>
-                  <input required type="number" min="0" max="100" value={form.raised} onChange={e => setForm({...form, raised: parseInt(e.target.value) || 0})} className={inputCls} placeholder="0-100" />
-                </div>
-                <div>
-                  <label className={labelCls}>Goal *</label>
-                  <input required value={form.goal} onChange={e => setForm({...form, goal: e.target.value})} className={inputCls} placeholder="e.g. ₹5,00,000" />
-                </div>
+              <div>
+                <label className={labelCls}>Target Amount (₹) *</label>
+                <input
+                  required
+                  type="number"
+                  min="1"
+                  value={form.target_amount}
+                  onChange={e => setForm({...form, target_amount: e.target.value})}
+                  className={inputCls}
+                  placeholder="e.g. 500000"
+                />
               </div>
 
               <div>
