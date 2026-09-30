@@ -73,6 +73,7 @@ import CoordinatorIDCard from "./pages/coordinator/CoordinatorIDCard"
 import CoordinatorCollections from "./pages/coordinator/CoordinatorCollections"
 import CoordinatorDonors from "./pages/coordinator/CoordinatorDonors"
 import CoordinatorCertificates from "./pages/coordinator/CoordinatorCertificates"
+import CoordinatorPlaceholder from "./pages/coordinator/CoordinatorPlaceholder"
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -136,6 +137,30 @@ export default function App() {
           <Route path="support" element={<CoordinatorSupport />} />
           <Route path="id-card" element={<CoordinatorIDCard />} />
           <Route path="certificates" element={<CoordinatorCertificates />} />
+          
+          {/* Newly Added Conditional Routes mapped to actual Admin pages */}
+          <Route path="campaigns" element={<AdminCampaigns />} />
+          <Route path="ledger" element={<AdminAllCampaignRevenue />} />
+          <Route path="expenses" element={<AdminReports />} />
+          <Route path="about-us" element={<AdminContent />} />
+          <Route path="events" element={<AdminEvents />} />
+          <Route path="testimonials" element={<AdminTestimonials />} />
+          <Route path="gallery" element={<AdminContent />} />
+          <Route path="youtube" element={<AdminContent />} />
+          <Route path="achievements" element={<AdminContent />} />
+          <Route path="partners" element={<AdminPartners />} />
+          <Route path="projects" element={<AdminPrograms />} />
+          <Route path="news" element={<AdminEvents />} />
+          <Route path="documents" element={<AdminDocuments />} />
+          <Route path="certs-membership" element={<AdminCertificates />} />
+          <Route path="certs-appreciation" element={<AdminCertificates />} />
+          <Route path="certs-participation" element={<AdminCertificates />} />
+          <Route path="certs-visitor" element={<AdminCertificates />} />
+          <Route path="appointment-letters" element={<AdminCertificates />} />
+          <Route path="letters-composer" element={<AdminCertificates />} />
+          <Route path="users-admin" element={<AdminMembers />} />
+          <Route path="team-admin" element={<AdminTeams />} />
+          <Route path="review-volunteers" element={<AdminVolunteerRequests />} />
         </Route>
         <Route path="/*" element={<><Header /><Routes>
           <Route path="/" element={<Home />} />

@@ -45,7 +45,7 @@ export default function AdminLayout() {
   const linkClass = ({ isActive }) => `flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[11px] font-semibold transition sm:text-sm ${isActive ? "bg-teal text-white shadow-sm" : "text-primary hover:bg-primary-soft"}`
 
   return (
-    <div className="flex min-h-screen bg-muted/30">
+    <div className="flex h-screen overflow-hidden bg-muted/30">
       {sidebarOpen && <div className="fixed inset-0 z-30 bg-black/30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
       <aside className={`fixed inset-y-0 left-0 z-40 flex w-56 flex-col border-r border-border bg-card transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 sm:w-64 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex h-14 items-center gap-2 border-b border-border px-4 sm:h-16">

@@ -44,10 +44,13 @@ const CERTIFICATE_TYPES = [
 ]
 
 export default function AdminCertificates() {
+  const defaultLetterContent = `We are pleased to offer you the position of [Position Title] at [Site Title]. Your dedication to our mission and outstanding qualifications have made you an ideal candidate for this role.\n\nIn this position, you will play a crucial role in advancing our initiatives to support and empower the communities we serve. Your responsibilities will include, but are not limited to, the duties discussed during your selection process.\n\nWe believe that your skills and passion will be a valuable addition to our team. Please review the attached terms and conditions of your appointment.\n\nWe look forward to welcoming you to the [Site Title] family and achieving great things together.`
+
   const [type, setType] = useState(CERTIFICATE_TYPES[0].id)
   const [form, setForm] = useState({
     recipientName: "John Doe",
     description: CERTIFICATE_TYPES[0].defaultDesc,
+    letterContent: defaultLetterContent,
     date: new Date().toISOString().split("T")[0],
     roleOrEvent: CERTIFICATE_TYPES[0].defaultRole,
   })
@@ -67,6 +70,7 @@ export default function AdminCertificates() {
     setForm(prev => ({
       ...prev,
       description: newTypeData.defaultDesc,
+      letterContent: defaultLetterContent,
       roleOrEvent: newTypeData.defaultRole
     }))
   }
@@ -205,10 +209,26 @@ export default function AdminCertificates() {
                 name="description"
                 value={form.description}
                 onChange={handleInputChange}
-                rows={3}
+                rows={2}
                 className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm focus:border-teal focus:outline-none"
               />
             </div>
+
+            {type === "appointment" && (
+              <div>
+                <label className="mb-1.5 block text-xs font-bold text-primary">Letter Body Content</label>
+                <textarea
+                  name="letterContent"
+                  value={form.letterContent}
+                  onChange={handleInputChange}
+                  rows={8}
+                  className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm focus:border-teal focus:outline-none"
+                />
+                <p className="mt-1 text-[10px] text-muted-foreground">
+                  Use <b>[Position Title]</b> and <b>[Site Title]</b> to dynamically insert those values.
+                </p>
+              </div>
+            )}
 
             <div>
               <label className="mb-1.5 block text-xs font-bold text-primary">Date</label>
@@ -365,21 +385,28 @@ export default function AdminCertificates() {
 
                   <p className="mb-6">Dear {form.recipientName || "[Name]"},</p>
 
-                  <p className="mb-6">
-                    We are pleased to offer you the position of <strong>{form.description || "[Position Title]"}</strong> at {siteTitle}. Your dedication to our mission and outstanding qualifications have made you an ideal candidate for this role.
-                  </p>
-
-                  <p className="mb-6">
-                    In this position, you will play a crucial role in advancing our initiatives to support and empower the communities we serve. Your responsibilities will include, but are not limited to, the duties discussed during your selection process.
-                  </p>
-
-                  <p className="mb-6">
-                    We believe that your skills and passion will be a valuable addition to our team. Please review the attached terms and conditions of your appointment.
-                  </p>
-
-                  <p className="mb-12">
-                    We look forward to welcoming you to the {siteTitle} family and achieving great things together.
-                  </p>
+                  {form.letterContent.split('\n').map((paragraph, idx) => {
+                    if (!paragraph.trim()) return null;
+                    
+                    let parsedText = paragraph
+                      .replace(/\[Position Title\]/g, form.description || "[Position Title]")
+                      .replace(/\[Site Title\]/g, siteTitle)
+                      
+                    // Bold the position title if it exists
+                    const posTitle = form.description || "[Position Title]"
+                    const parts = parsedText.split(posTitle)
+                    
+                    return (
+                      <p key={idx} className="mb-6">
+                        {parts.map((part, i) => (
+                          <span key={i}>
+                            {part}
+                            {i < parts.length - 1 && <strong>{posTitle}</strong>}
+                          </span>
+                        ))}
+                      </p>
+                    )
+                  })}
 
                   <p className="mb-10">Sincerely,</p>
 

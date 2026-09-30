@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { Settings, Globe, ShieldCheck, Link2, Smartphone, MapPin, Image as ImageIcon, Save, CheckCircle2 } from "lucide-react"
+import { Settings, Globe, ShieldCheck, Link2, Smartphone, MapPin, Image as ImageIcon, Save, CheckCircle2, Lock } from "lucide-react"
 
 export default function AdminSettings() {
   const [activeTab, setActiveTab] = useState("general")
@@ -39,7 +39,29 @@ export default function AdminSettings() {
     headerLogoUrl: "",
     footerLogoUrl: "",
     faviconUrl: "",
-    pwaIconUrl: ""
+    pwaIconUrl: "",
+    coordCampaignsManagement: false,
+    coordDonationsLedger: false,
+    coordExpenseManager: false,
+    coordAboutUs: false,
+    coordEventsPortal: false,
+    coordTestimonials: false,
+    coordGallery: false,
+    coordYoutube: false,
+    coordAchievements: false,
+    coordPartners: false,
+    coordProjects: false,
+    coordNews: false,
+    coordDocuments: false,
+    coordCertMembership: false,
+    coordCertAppreciation: false,
+    coordCertParticipation: false,
+    coordCertVisitor: false,
+    coordAppointmentLetters: false,
+    coordLettersComposer: false,
+    coordUsersAdmin: false,
+    coordTeamAdmin: false,
+    coordReviewVolunteers: false
   })
 
   const [files, setFiles] = useState({
@@ -138,6 +160,7 @@ export default function AdminSettings() {
     { id: "pwa", label: "PWA Settings", icon: Smartphone },
     { id: "contact", label: "Contact Info", icon: MapPin },
     { id: "branding", label: "Branding", icon: ImageIcon },
+    { id: "coordinator_security", label: "Coordinator Security", icon: Lock },
   ]
 
   if (loading) {
@@ -413,6 +436,109 @@ export default function AdminSettings() {
                       <input type="file" accept=".ico,.png,.svg" onChange={(e) => handleFileChange(e, "favicon")} className="w-full text-sm" />
                     </div>
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* COORDINATOR SECURITY */}
+            {activeTab === "coordinator_security" && (
+              <div className="animate-in fade-in slide-in-from-bottom-2">
+                <h2 className="mb-6 border-b border-border pb-3 text-xl font-bold text-primary">Global Coordinator Access Toggles</h2>
+                <p className="mb-6 text-sm text-text-light">Grant or revoke access to specific administration panels for all Coordinator accounts globally.</p>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  
+                  {/* Category 1 */}
+                  <div className="rounded-xl border border-border p-4 bg-background">
+                    <h3 className="mb-4 text-sm font-bold text-primary">Campaigns & Financials</h3>
+                    <div className="space-y-3">
+                      {[
+                        { key: "coordCampaignsManagement", label: "Campaigns Management" },
+                        { key: "coordDonationsLedger", label: "Donations Ledger" },
+                        { key: "coordExpenseManager", label: "Expense Manager" },
+                      ].map(item => (
+                        <div key={item.key} className="flex items-center gap-3">
+                          <input type="checkbox" id={item.key} name={item.key} checked={settings[item.key] || false} onChange={handleInputChange} className="size-4 cursor-pointer rounded text-teal focus:ring-teal" />
+                          <label htmlFor={item.key} className="cursor-pointer text-sm text-text">{item.label}</label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Category 2 */}
+                  <div className="rounded-xl border border-border p-4 bg-background">
+                    <h3 className="mb-4 text-sm font-bold text-primary">Events & Web Content</h3>
+                    <div className="space-y-3">
+                      {[
+                        { key: "coordAboutUs", label: "About Us Profile" },
+                        { key: "coordEventsPortal", label: "Events Portal" },
+                        { key: "coordTestimonials", label: "Testimonials Management" },
+                        { key: "coordGallery", label: "Gallery Images" },
+                        { key: "coordYoutube", label: "YouTube Videos" },
+                        { key: "coordAchievements", label: "Achievements & Awards" },
+                        { key: "coordPartners", label: "Partners & Sponsors" },
+                        { key: "coordProjects", label: "Our Projects" },
+                      ].map(item => (
+                        <div key={item.key} className="flex items-center gap-3">
+                          <input type="checkbox" id={item.key} name={item.key} checked={settings[item.key] || false} onChange={handleInputChange} className="size-4 cursor-pointer rounded text-teal focus:ring-teal" />
+                          <label htmlFor={item.key} className="cursor-pointer text-sm text-text">{item.label}</label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Category 3 */}
+                  <div className="rounded-xl border border-border p-4 bg-background">
+                    <h3 className="mb-4 text-sm font-bold text-primary">Publishing & Downloads</h3>
+                    <div className="space-y-3">
+                      {[
+                        { key: "coordNews", label: "News & Activities" },
+                        { key: "coordDocuments", label: "Public Documents" },
+                      ].map(item => (
+                        <div key={item.key} className="flex items-center gap-3">
+                          <input type="checkbox" id={item.key} name={item.key} checked={settings[item.key] || false} onChange={handleInputChange} className="size-4 cursor-pointer rounded text-teal focus:ring-teal" />
+                          <label htmlFor={item.key} className="cursor-pointer text-sm text-text">{item.label}</label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Category 4 */}
+                  <div className="rounded-xl border border-border p-4 bg-background">
+                    <h3 className="mb-4 text-sm font-bold text-primary">Certificates & Letters</h3>
+                    <div className="space-y-3">
+                      {[
+                        { key: "coordCertMembership", label: "Membership Certificates" },
+                        { key: "coordCertAppreciation", label: "Appreciation Certificates" },
+                        { key: "coordCertParticipation", label: "Participation Certificates" },
+                        { key: "coordCertVisitor", label: "Visitor Certificates" },
+                        { key: "coordAppointmentLetters", label: "Appointment Letters" },
+                        { key: "coordLettersComposer", label: "Letters Composer" },
+                      ].map(item => (
+                        <div key={item.key} className="flex items-center gap-3">
+                          <input type="checkbox" id={item.key} name={item.key} checked={settings[item.key] || false} onChange={handleInputChange} className="size-4 cursor-pointer rounded text-teal focus:ring-teal" />
+                          <label htmlFor={item.key} className="cursor-pointer text-sm text-text">{item.label}</label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Category 5 */}
+                  <div className="rounded-xl border border-border p-4 bg-background">
+                    <h3 className="mb-4 text-sm font-bold text-primary">System People Administration</h3>
+                    <div className="space-y-3">
+                      {[
+                        { key: "coordUsersAdmin", label: "Users / Members Admin" },
+                        { key: "coordTeamAdmin", label: "Team Members Admin" },
+                        { key: "coordReviewVolunteers", label: "Review Volunteers" },
+                      ].map(item => (
+                        <div key={item.key} className="flex items-center gap-3">
+                          <input type="checkbox" id={item.key} name={item.key} checked={settings[item.key] || false} onChange={handleInputChange} className="size-4 cursor-pointer rounded text-teal focus:ring-teal" />
+                          <label htmlFor={item.key} className="cursor-pointer text-sm text-text">{item.label}</label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
