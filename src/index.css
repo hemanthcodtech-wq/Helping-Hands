@@ -93,3 +93,18 @@
 @media (min-width: 1024px) {
   header.sticky.shadow-md + * { padding-top: 97px; }
 }
+
+/* Quill Preview Styles */
+.quill-content-preview p {
+  margin-bottom: 1.5rem;
+}
+.quill-content-preview strong {
+  font-weight: 700;
+}
+.quill-content-preview em {
+  font-style: italic;
+}
+.quill-content-preview h1, .quill-content-preview h2, .quill-content-preview h3, .quill-content-preview h4 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+}

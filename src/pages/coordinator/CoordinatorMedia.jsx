@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { Plus, Trash2, Video, Image as ImageIcon, FileText, Upload, X, Search, Trophy, Newspaper } from "lucide-react"
+import { Plus, Trash2, Video, Image as ImageIcon, Upload, X, Search, Trophy } from "lucide-react"
 
 const getEmbedUrl = (url) => {
   if (!url) return "";
@@ -26,21 +26,14 @@ const getEmbedUrl = (url) => {
 
 const CATEGORIES = [
   { id: 'photos', label: 'Photos', icon: ImageIcon },
-  { id: 'videos', label: 'Videos', icon: Video },
+  { id: 'videos', label: 'YouTube Videos', icon: Video },
   { id: 'achievements', label: 'Achievements', icon: Trophy },
-  { id: 'press', label: 'Press & Stories', icon: Newspaper },
-  { id: 'reports', label: 'Reports', icon: FileText },
-  { id: 'certificates', label: 'Certificates', icon: FileText },
-  { id: 'registration', label: 'Registration', icon: FileText },
-  { id: '12a', label: '12A', icon: FileText },
-  { id: '80g', label: '80G', icon: FileText },
-  { id: 'ngo-darpan', label: 'NGO Darpan', icon: FileText },
 ]
 
-export default function AdminResources() {
+export default function CoordinatorMedia({ defaultCategory = "photos" }) {
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
-  const [activeCategory, setActiveCategory] = useState('photos')
+  const [activeCategory, setActiveCategory] = useState(defaultCategory)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [search, setSearch] = useState("")
 
@@ -54,7 +47,12 @@ export default function AdminResources() {
   const [submitting, setSubmitting] = useState(false)
   const fileInputRef = useRef(null)
 
+  useEffect(() => {
+    setActiveCategory(defaultCategory)
+  }, [defaultCategory])
+
   const fetchResources = async () => {
+    setLoading(true)
     try {
       const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://helpinghandsbe.vercel.app';
       const res = await fetch(`${baseUrl}/api/resources?category=${activeCategory}`)
@@ -139,12 +137,20 @@ export default function AdminResources() {
     r.description?.toLowerCase().includes(search.toLowerCase())
   )
 
+  const isVideoUrl = (url) => {
+    if (!url) return false;
+    const l = url.toLowerCase();
+    return l.includes('youtube') || l.includes('youtu') || l.includes('vimeo');
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-[15px] font-extrabold text-primary sm:text-xl">Media & Resources</h2>
-          <p className="mt-0.5 text-[9px] text-muted-foreground sm:text-sm">Manage photos, videos, reports and certificates.</p>
+          <h2 className="text-[15px] font-extrabold text-primary sm:text-xl">
+            {CATEGORIES.find(c => c.id === activeCategory)?.label || "Media"}
+          </h2>
+          <p className="mt-0.5 text-[9px] text-muted-foreground sm:text-sm">Manage media and resources.</p>
         </div>
         <button onClick={openNewModal} className="inline-flex items-center gap-2 rounded-xl bg-teal px-4 py-2 text-xs font-bold text-white transition hover:bg-teal-dark">
           <Plus className="size-4" /> Add Resource
@@ -208,21 +214,14 @@ export default function AdminResources() {
                 
                 {activeCategory === 'videos' && (
                   <div className="mt-4 aspect-video overflow-hidden rounded-xl border border-border bg-black">
-                    {r.file_url?.includes('youtube') || r.file_url?.includes('youtu') || r.file_url?.includes('vimeo') ? (
+                    {isVideoUrl(r.file_url) ? (
                        <iframe src={getEmbedUrl(r.file_url)} className="w-full h-full" allowFullScreen></iframe>
                     ) : (
                       <video src={r.file_url} controls className="w-full h-full object-cover"></video>
                     )}
                   </div>
                 )}
-                
-                {activeCategory !== 'videos' && (
-                  <a href={r.file_url} target="_blank" rel="noreferrer" className="mt-4 block text-xs font-bold text-teal hover:underline">
-                    View Link / Download
-                  </a>
-                )}
               </div>
-              
               <button onClick={() => handleDelete(r.id)} className="absolute right-4 top-4 text-muted-foreground hover:text-red-500 transition">
                 <Trash2 className="size-4" />
               </button>
@@ -232,7 +231,7 @@ export default function AdminResources() {
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-0">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
           <div className="relative w-full max-w-lg rounded-3xl bg-card p-6 shadow-2xl sm:p-8">
             <button onClick={() => setIsModalOpen(false)} className="absolute right-6 top-6 text-muted-foreground hover:text-primary">

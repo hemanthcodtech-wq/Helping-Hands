@@ -16,6 +16,11 @@ const NAV_LINKS = [
     { label: "All Teams", to: "/teams" }, { label: "Management Team", to: "/teams/management" }, { label: "General Members", to: "/teams/members" }, { label: "Valued Donors", to: "/teams/donors" }, { label: "Volunteers", to: "/teams/volunteers" }
   ]},
   { label: "Events & News", to: "/events", dropdown: true, menu: [{ label: "Upcoming Events", to: "/events#upcoming" }, { label: "News & Updates", to: "/events#news" }]},
+  { label: "Gallery", to: "/gallery", dropdown: true, menu: [
+    { label: "Photo Gallery", to: "/gallery" },
+    { label: "YouTube Videos", to: "/youtube" },
+    { label: "Achievements", to: "/achievements" }
+  ]},
   { label: "Resources", to: "/resources", dropdown: true, menu: [{ label: "Photos", to: "/resources/photos" }, { label: "Videos", to: "/resources/videos" }, { label: "Achievements & Awards", to: "/resources/achievements-awards" }, { label: "Press & Stories", to: "/resources/press-stories" }]},
   { label: "Support Us", to: "/support-us", dropdown: true, menu: [{ label: "Donate", to: "/donate" }, { label: "Volunteer Registration", to: "/volunteer" }, { label: "Certificates", to: "/about/certificates" }, { label: "Campaigns", to: "/campaigns" }]},
   { label: "Contact", to: "/contact" }

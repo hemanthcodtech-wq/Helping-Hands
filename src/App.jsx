@@ -74,6 +74,7 @@ import CoordinatorCollections from "./pages/coordinator/CoordinatorCollections"
 import CoordinatorDonors from "./pages/coordinator/CoordinatorDonors"
 import CoordinatorCertificates from "./pages/coordinator/CoordinatorCertificates"
 import CoordinatorPlaceholder from "./pages/coordinator/CoordinatorPlaceholder"
+import CoordinatorMedia from "./pages/coordinator/CoordinatorMedia"
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -145,9 +146,9 @@ export default function App() {
           <Route path="about-us" element={<AdminContent />} />
           <Route path="events" element={<AdminEvents />} />
           <Route path="testimonials" element={<AdminTestimonials />} />
-          <Route path="gallery" element={<AdminContent />} />
-          <Route path="youtube" element={<AdminContent />} />
-          <Route path="achievements" element={<AdminContent />} />
+          <Route path="gallery" element={<CoordinatorMedia defaultCategory="photos" />} />
+          <Route path="youtube" element={<CoordinatorMedia defaultCategory="videos" />} />
+          <Route path="achievements" element={<CoordinatorMedia defaultCategory="achievements" />} />
           <Route path="partners" element={<AdminPartners />} />
           <Route path="projects" element={<AdminPrograms />} />
           <Route path="news" element={<AdminEvents />} />
@@ -176,6 +177,9 @@ export default function App() {
           <Route path="/about/certificates/:type" element={<ResourcePage />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/resources/:type" element={<ResourcePage />} />
+          <Route path="/gallery" element={<ResourcePage />} />
+          <Route path="/youtube" element={<ResourcePage />} />
+          <Route path="/achievements" element={<ResourcePage />} />
           <Route path="/events" element={<Events />} />
           <Route path="/programs" element={<Programs />} />
           <Route path="/campaigns" element={<Campaigns />} />

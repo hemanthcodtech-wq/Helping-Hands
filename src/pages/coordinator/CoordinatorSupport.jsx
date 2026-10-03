@@ -1,13 +1,25 @@
 import { useState } from "react"
 import { MessageSquare, Send } from "lucide-react"
 import FadeIn from "../../components/Common/FadeIn"
+import { useApp } from "../../context/AppContext"
 
 export default function CoordinatorSupport() {
   const [message, setMessage] = useState("")
+  const { globalSettings, currentUser } = useApp()
 
   const handleSend = (e) => {
     e.preventDefault()
-    alert("Support request sent! We will get back to you soon.")
+    
+    // You can use a phone number from globalSettings or default to the admin's number
+    const adminPhone = globalSettings?.contactPhone?.replace(/[^0-9]/g, "") || "917093426966"
+    
+    // Include the sender's info to give context to the admin
+    const senderName = currentUser?.name || "Coordinator"
+    const text = `*Support Request from ${senderName}*\n\n${message}`
+    
+    const whatsappUrl = `https://wa.me/${adminPhone}?text=${encodeURIComponent(text)}`
+    
+    window.open(whatsappUrl, "_blank")
     setMessage("")
   }
 

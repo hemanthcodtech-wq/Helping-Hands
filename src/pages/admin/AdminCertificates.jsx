@@ -4,6 +4,8 @@ import FadeIn from "../../components/Common/FadeIn"
 import { jsPDF } from "jspdf"
 import html2canvas from "html2canvas"
 import { useApp } from "../../context/AppContext"
+import ReactQuill from "react-quill-new"
+import "react-quill-new/dist/quill.snow.css"
 
 const CERTIFICATE_TYPES = [
   { 
@@ -44,7 +46,7 @@ const CERTIFICATE_TYPES = [
 ]
 
 export default function AdminCertificates() {
-  const defaultLetterContent = `We are pleased to offer you the position of [Position Title] at [Site Title]. Your dedication to our mission and outstanding qualifications have made you an ideal candidate for this role.\n\nIn this position, you will play a crucial role in advancing our initiatives to support and empower the communities we serve. Your responsibilities will include, but are not limited to, the duties discussed during your selection process.\n\nWe believe that your skills and passion will be a valuable addition to our team. Please review the attached terms and conditions of your appointment.\n\nWe look forward to welcoming you to the [Site Title] family and achieving great things together.`
+  const defaultLetterContent = `<p>We are pleased to offer you the position of [Position Title] at [Site Title]. Your dedication to our mission and outstanding qualifications have made you an ideal candidate for this role.</p><p><br></p><p>In this position, you will play a crucial role in advancing our initiatives to support and empower the communities we serve. Your responsibilities will include, but are not limited to, the duties discussed during your selection process.</p><p><br></p><p>We believe that your skills and passion will be a valuable addition to our team. Please review the attached terms and conditions of your appointment.</p><p><br></p><p>We look forward to welcoming you to the [Site Title] family and achieving great things together.</p>`
 
   const [type, setType] = useState(CERTIFICATE_TYPES[0].id)
   const [form, setForm] = useState({
@@ -217,13 +219,14 @@ export default function AdminCertificates() {
             {type === "appointment" && (
               <div>
                 <label className="mb-1.5 block text-xs font-bold text-primary">Letter Body Content</label>
-                <textarea
-                  name="letterContent"
-                  value={form.letterContent}
-                  onChange={handleInputChange}
-                  rows={8}
-                  className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm focus:border-teal focus:outline-none"
-                />
+                <div className="bg-background rounded-xl overflow-hidden border border-border focus-within:border-teal">
+                  <ReactQuill 
+                    theme="snow" 
+                    value={form.letterContent} 
+                    onChange={(val) => setForm((prev) => ({ ...prev, letterContent: val }))}
+                    className="h-48 pb-10"
+                  />
+                </div>
                 <p className="mt-1 text-[10px] text-muted-foreground">
                   Use <b>[Position Title]</b> and <b>[Site Title]</b> to dynamically insert those values.
                 </p>
@@ -385,28 +388,14 @@ export default function AdminCertificates() {
 
                   <p className="mb-6">Dear {form.recipientName || "[Name]"},</p>
 
-                  {form.letterContent.split('\n').map((paragraph, idx) => {
-                    if (!paragraph.trim()) return null;
-                    
-                    let parsedText = paragraph
-                      .replace(/\[Position Title\]/g, form.description || "[Position Title]")
-                      .replace(/\[Site Title\]/g, siteTitle)
-                      
-                    // Bold the position title if it exists
-                    const posTitle = form.description || "[Position Title]"
-                    const parts = parsedText.split(posTitle)
-                    
-                    return (
-                      <p key={idx} className="mb-6">
-                        {parts.map((part, i) => (
-                          <span key={i}>
-                            {part}
-                            {i < parts.length - 1 && <strong>{posTitle}</strong>}
-                          </span>
-                        ))}
-                      </p>
-                    )
-                  })}
+                  <div 
+                    className="mb-6 quill-content-preview"
+                    dangerouslySetInnerHTML={{ 
+                      __html: form.letterContent
+                        .replace(/\[Position Title\]/g, `<strong>${form.description || "[Position Title]"}</strong>`)
+                        .replace(/\[Site Title\]/g, siteTitle)
+                    }} 
+                  />
 
                   <p className="mb-10">Sincerely,</p>
 

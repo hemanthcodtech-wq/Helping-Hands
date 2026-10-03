@@ -2,6 +2,29 @@ import { useState, useEffect } from "react"
 import { Link, useParams, useLocation } from "react-router-dom"
 import { ArrowLeft, FileText, Award, Image, Video, Trophy, Newspaper, Download } from "lucide-react"
 
+const getEmbedUrl = (url) => {
+  if (!url) return "";
+  const lower = url.toLowerCase();
+  if (lower.includes("youtube.com/watch?v=")) {
+    try { return `https://www.youtube.com/embed/${new URL(url).searchParams.get("v")}`; } catch (e) {}
+  }
+  if (lower.includes("youtu.be/")) {
+    const id = url.split("youtu.be/")[1]?.split("?")[0];
+    if (id) return `https://www.youtube.com/embed/${id}`;
+  }
+  if (lower.includes("youtube.com/shorts/")) {
+    const id = url.split("shorts/")[1]?.split("?")[0];
+    if (id) return `https://www.youtube.com/embed/${id}`;
+  }
+  // If it's some other youtube URL (e.g. mobile or already embed), just try to use it
+  if (lower.includes("youtube") && !lower.includes("embed")) {
+     // fallback rudimentary extraction
+     const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+     if (match && match[1]) return `https://www.youtube.com/embed/${match[1]}`;
+  }
+  return url;
+};
+
 const DATA = {
   reports: { title: "Reports", description: "Annual and audit reports documenting our work, impact and financial accountability.", icon: FileText },
   certificates: { title: "Certificates", description: "Registration and statutory certificates for transparent organizational information.", icon: Award },
@@ -10,7 +33,9 @@ const DATA = {
   "80g": { title: "80G Certificate", description: "80G certification information for eligible donations made in support of Helping Hands Foundation.", icon: Award },
   "ngo-darpan": { title: "NGO Darpan Registration", description: "NGO Darpan registration information and organizational identification details.", icon: Award },
   photos: { title: "Photos", description: "A visual collection of community activities, programs and outreach initiatives.", icon: Image },
+  gallery: { title: "Gallery", description: "A visual collection of community activities, programs and outreach initiatives.", icon: Image },
   videos: { title: "Videos", description: "Stories and highlights from our programs and community initiatives.", icon: Video },
+  youtube: { title: "YouTube Videos", description: "Stories and highlights from our programs and community initiatives on YouTube.", icon: Video },
   achievements: { title: "Achievements & Awards", description: "Milestones, recognitions and achievements from our journey.", icon: Trophy },
   press: { title: "Press & Stories", description: "News coverage, stories and public highlights about our work.", icon: Newspaper },
 }
@@ -27,7 +52,9 @@ export default function ResourcePage() {
   
   const categoryMap = {
     'press-stories': 'press',
-    'achievements-awards': 'achievements'
+    'achievements-awards': 'achievements',
+    'gallery': 'photos',
+    'youtube': 'videos'
   }
   const dbCategory = categoryMap[resolvedType] || resolvedType || 'reports'
   
@@ -41,7 +68,8 @@ export default function ResourcePage() {
     const fetchItems = async () => {
       setLoading(true)
       try {
-        const res = await fetch(`https://helpinghandsbe.vercel.app/api/resources?category=${dbCategory}`)
+        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://helpinghandsbe.vercel.app';
+        const res = await fetch(`${baseUrl}/api/resources?category=${dbCategory}`)
         const json = await res.json()
         if (json.success) {
           setItems(json.resources)
@@ -81,8 +109,8 @@ export default function ResourcePage() {
           {items.map((item) => (
             <div key={item.id} className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
               <div className="aspect-video bg-black w-full">
-                {item.file_url.includes('youtube') || item.file_url.includes('vimeo') ? (
-                  <iframe src={item.file_url} title={item.title} className="w-full h-full" allowFullScreen></iframe>
+                {item.file_url?.includes('youtube') || item.file_url?.includes('youtu') || item.file_url?.includes('vimeo') ? (
+                  <iframe src={getEmbedUrl(item.file_url)} title={item.title} className="w-full h-full" allowFullScreen></iframe>
                 ) : (
                   <video src={item.file_url} controls className="w-full h-full object-cover"></video>
                 )}
